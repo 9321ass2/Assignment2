@@ -8,6 +8,7 @@ from flask_restplus import Resource, Api
 from flask_restplus import fields
 from flask_restplus import inputs
 from flask_restplus import reqparse
+
 client = pymongo.MongoClient(f"mongodb+srv://TommyLin:5219960@comp9321db-fhxu4.mongodb.net/test?retryWrites=true&w=majority")
 db = client.test
 
