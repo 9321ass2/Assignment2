@@ -1,0 +1,12 @@
+machine learnging
+
+based on sklearn
+
+STEP_1: 
+      construct the ml_model and test it until get the highest accuracy
+STEP_2: 
+      Embed the model into html file
+
+Requirements: 
+      1) predict the sales of games 
+      2) predict the ratinf of games
