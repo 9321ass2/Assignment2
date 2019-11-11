@@ -11,3 +11,6 @@ Requirements:
       1) pie chart for regional sales 
       2) linear grapgh for future sales prediction 
       3) bar graph for top sales <--- platform & years
+    
+Problems:
+      1) too many developer & platform
