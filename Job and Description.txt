@@ -14,3 +14,4 @@ Requirements:
     
 Problems:
       1) too many developer & platform
+      2） the meaning of sorting by rating
