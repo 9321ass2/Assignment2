@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Game! | </title>
+
+    <!-- Bootstrap -->
+<!--     <link href="./styles/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- Font Awesome -->
+    <link href="./styles/font-awesome.min.css" rel="stylesheet">
+    <link href="./styles/slids.css" rel="stylesheet">
+    <link href="./styles/csslider.default.css" rel="stylesheet" >
+    
+    <!--login-->
+    <link href="./styles/login.css" rel="stylesheet" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+     <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <!-- Custom Theme Style -->
+    <link href="./styles/custom.css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+              
+              <nav class="nav navbar-nav">
+
+              <ul class=" navbar-right">
+
+                <li class="nav-item"><button id="login" class="button-primary">Log In</button></li>
+                <li class="nav-item"><button id="signup" class="button-secondary">Sign Up</button></li>
+                <li ><svg class="logo" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+width="47" height="47"
+viewBox="0 0 172 172"
+style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#f29900"><path d="M158.14904,-0.20673c-0.28426,0.05168 -0.56851,0.12921 -0.82692,0.20673c-3.07512,0.69772 -5.24579,3.46274 -5.16827,6.61538c0,0 -0.02584,4.78065 -3.10096,9.71635c-3.07512,4.9357 -8.57933,10.12981 -23.36058,10.12981c-21.31911,0 -33.72296,7.59736 -39.89904,15.91827c-6.17608,8.32092 -6.20192,17.15865 -6.20192,17.15865c-0.02584,2.3774 1.21454,4.59976 3.28185,5.8143c2.06731,1.18871 4.59976,1.18871 6.66706,0c2.06731,-1.21454 3.30769,-3.4369 3.28185,-5.8143c0,0 -0.12921,-4.39303 3.51442,-9.30288c3.64363,-4.90985 10.98257,-10.54327 29.35577,-10.54327c18.29567,0 29.32993,-8.03666 34.52404,-16.33173c5.19411,-8.29507 5.16827,-16.74519 5.16827,-16.74519c0.07753,-1.91226 -0.69772,-3.74699 -2.06731,-5.03906c-1.39543,-1.31791 -3.28185,-1.96394 -5.16827,-1.78305zM46.10096,60.15865c-18.16647,0 -44.65385,32.76683 -44.65385,74.00962c0,12.92067 9.84555,30.80288 20.67308,30.80288c21.68089,0 25.76382,-33.28365 63.87981,-33.28365c38.11599,0 42.19892,33.28365 63.87981,33.28365c10.82753,0 20.67308,-17.88221 20.67308,-30.80288c0,-41.24279 -26.48738,-74.00962 -44.65385,-74.00962c-18.16647,0 -21.73257,19.63942 -39.89904,19.63942c-18.16647,0 -21.73257,-19.63942 -39.89904,-19.63942zM124.03846,84.34615c0.54267,-0.10337 1.08534,0 1.65385,0c4.59976,0 8.26923,3.64363 8.26923,8.26923c0,4.6256 -3.66947,8.26923 -8.26923,8.26923c-4.59976,0 -8.26923,-3.64363 -8.26923,-8.26923c0,-4.03125 2.81671,-7.49399 6.61538,-8.26923zM39.69231,86h13.23077v13.23077h13.23077v13.23077h-13.23077v13.23077h-13.23077v-13.23077h-13.23077v-13.23077h13.23077zM110.80769,97.57692c0.54267,-0.10337 1.08534,0 1.65385,0c4.6256,0 8.26923,3.64363 8.26923,8.26923c0,4.6256 -3.64363,8.26923 -8.26923,8.26923c-4.6256,0 -8.26923,-3.66947 -8.26923,-8.26923c0,-4.03125 2.79087,-7.49399 6.61538,-8.26923zM137.26923,97.57692c0.54267,-0.10337 1.08534,0 1.65385,0c4.6256,0 8.26923,3.64363 8.26923,8.26923c0,4.6256 -3.64363,8.26923 -8.26923,8.26923c-4.6256,0 -8.26923,-3.64363 -8.26923,-8.26923c0,-4.03125 2.79087,-7.49399 6.61538,-8.26923zM124.03846,110.80769c0.54267,-0.10337 1.08534,0 1.65385,0c4.6256,0 8.26923,3.64363 8.26923,8.26923c0,4.6256 -3.66947,8.26923 -8.26923,8.26923c-4.59976,0 -8.26923,-3.64363 -8.26923,-8.26923c0,-4.05709 2.81671,-7.49399 6.61538,-8.26923z"></path></g></g></svg></li>
+  
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="page-content" id="page-content">
+          <div style="padding: 1em 0;">
+        <h2>FEATURED & RECOMMENDED</h2>
+        <div id="slider1" class="csslider">
+            <input type="radio" name="slides" id="slides_1" />
+            <input type="radio" name="slides" id="slides_2" checked/>
+            <input type="radio" name="slides" id="slides_3" />
+            <input type="radio" name="slides" id="slides_4" />
+            <ul>
+                <li  class="scrollable">
+                    <h1>Web Name</h1>
+                    <h2>short description</h2>
+                    <p >
+                        ÃAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        ÃAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        ÃAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        ÃAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                        ÃAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+                    </p>
+                </li>
+                <li>
+                    
+                    <img src="./img/STAR.png" />
+                    <div id="bg">
+                        <div>
+                            <p>STAR WARS Jedi: Fallen Order Deluxe Edition</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                  <img src="./img/Witcher.png" />
+                    <div id="bg">
+                        <div>
+                            <p>The Witcher 3: Wild Hunt - Game of the Year Edition</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                   <img src="./img/OUTER.png" /> 
+                   <div id="bg">
+                        <div>
+                            <p>Outward</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="arrows">
+                <label for="slides_1"></label>
+                <label for="slides_2"></label>
+                <label for="slides_3"></label>
+                <label for="slides_4"></label>
+            </div>
+            <div class="navigation">
+                <div>
+                    <label for="slides_1"></label>
+                    <label for="slides_2"></label>
+                    <label for="slides_3"></label>
+                    <label for="slides_4"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+          <div class="x_panel">
+                  <div class="x_title">
+                    <h1>Best sale Games <small>2017-2019</small></h1>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <table class="table-hover">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>&nbspName&nbsp&nbsp</th>
+                          <th>&nbspPlatform&nbsp&nbsp</th>
+                          <th>&nbspDeveloper&nbsp&nbsp</th>
+                          <th>&nbspRating&nbsp&nbsp</th>
+                          <th>&nbspSales&nbsp&nbsp</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                          <td>Mark</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+              <div id="login-page" style="display:none">
+                
+              </div>
+              
+              <div id="user-page" style="display:none">
+              </div>
+        </div>
+        <!-- /page content -->
+        
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            COMP9321 GROUP :)
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+  <script src="./src/jquery-1.11.0.min.js" type="text/javascript"></script>
+  <script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="module" src="src/index.js"></script>
+<!--  <script src="./src/login.js"></script>-->
+  </body>
+</html>
