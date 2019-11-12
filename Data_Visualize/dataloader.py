@@ -61,15 +61,37 @@ def pre_process_LR_sale(dataframe):
         for each in sale.values:
              temp.append(each if each > 0 else 0)
         dataframe[str(i)] = temp
+    return dataframe
 
-    dataframe.to_csv('sale.csv', index = False)
-        # if sale < 0:
-        #     dataframe[str(i)] = 0
-        # else:
-        #     dataframe[str(i)] = sale
-    
+    # dataframe.to_csv('sale.csv', index = False)
 
 
+def pre_process_KNN(dataframe, region = None, genere = None, platform = None):
+    num_list = ['Critic_Score', 'User_Score', 'Year', 'Total_Shipped', 'Global_Sales', 'NA_Sales', 'PAL_Sales', 'JP_Sales', 'Other_Sales']
+    string_list = ['Genre', 'ESRB_Rating', 'Platform', 'Publisher', 'Developer']
+    for each in num_list:
+        dataframe[each].fillna(0, inplace = True)
+    for each in string_list:
+        dataframe[each].fillna('Unknown', inplace = True)
+    dataframe = dataframe.drop(dataframe[(dataframe.Other_Sales > 100)].index) #clean Other_Sales is year, e.g. the sale is 2007
+    dataframe['Global_Sales'] += dataframe['Total_Shipped'] #merge Total_Shipped and Global_Sales into Global_Sales
+    useless_list = ['Total_Shipped'] #useless columns, modify by yourself
+    dataframe.drop(columns = useless_list, inplace = True)
+
+    # some filters, if you need
+    # if platform:
+    #     dataframe = dataframe[dataframe['Platform'].str.contains(platform)] # filter platform
+    # if genere:
+    #     dataframe = dataframe[dataframe['Genre'].str.contains(genere)] # filter genre
+    # if region:
+    #     sale_list.append('Global_Sales')
+    #     sale_list.remove(region)
+    #     dataframe.drop(columns = sale_list, inplace = True) # drop unnecessary sales, keep regional sales
+    # else:
+    #     dataframe.drop(columns = sale_list, inplace = True) # only keep global sales
+
+    dataframe.to_csv('KNN.csv', index = False)
+    return dataframe
 
 
 if __name__ == '__main__':
@@ -78,7 +100,7 @@ if __name__ == '__main__':
 
     # processed_df = pre_process_top(df, s_or_r = 1)
     # processed_df = pre_process_top(df, platform = 'PC', s_or_r = 1)
-    df = pre_process_LR(df)
+    df = pre_process_KNN(df)
 
-    pre_process_LR_sale(df)
+    #df = pre_process_LR_sale(df)
     #df = pre_process_LR_count(df)
