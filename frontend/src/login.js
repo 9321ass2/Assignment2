@@ -5,9 +5,10 @@ function login(api){
 	let signup_button=document.getElementById("signup")
 	let page=document.getElementById("page-content")
 	let login_page=document.getElementById("login-page")
-
 	let user_page=document.getElementById("user-page")
-//login-page
+	let gamer_photo=document.getElementById("gamer_photo")
+
+//login&signup -page
 	let container = document.createElement('DIV');
 	container.classList.add('container');
 	login_page.appendChild(container);
@@ -88,17 +89,8 @@ function login(api){
 	btn2.classList.add('btn-default');
 	formGroup1.appendChild(btn2);
 	btn2.textContent = 'SIGNUP';
-//login page
 
-//sign up page
-// let btn2 = document.createElement('BUTTON');
-// btn2.type = 'submit';
-// btn2.classList.add('btn');
-// btn2.classList.add('btn-default');
-// formGroup12.appendChild(btn2);
-// btn2.textContent = 'SIGN UP';
-//
-
+//signup page
 	signup_button.onclick=function(){
 		console.log("signup")
 		page.style.display = "none"
@@ -107,8 +99,13 @@ function login(api){
 		btn.style.display="none"
 		btn2.style.display="block"
 		heading.textContent = 'SIGNUP';
+		btn2.onclick=function(){
+
+		}
 	}
-//sign up page
+//signup page
+
+//login  page
 	login_button.onclick=function(){
 		console.log("login")
 		page.style.display = "none"
@@ -117,6 +114,22 @@ function login(api){
 		btn2.style.display="none"
 		btn.style.display="block"
 		heading.textContent = 'LOGIN';
+		btn.onclick=function(){
+			let username=inputEmail3.value;
+			let password=inputPassword3.value;
+			//processing
+			if(username==':)' && password=='9321'){
+				login_page.style.display="none"
+				user_page.style.display="block"
+				login_button.style.display="none"
+				signup_button.style.display="none"
+				gamer_photo.style.display="block"
+
+			}else{
+				alert("Input message is wrong!");
+			}
+		}
 	}
 }
+//login  page
 export default login;

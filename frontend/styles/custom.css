@@ -2148,11 +2148,10 @@ table.display tr.odd.row_selected td {
   background-color: #9FAFD1; }
 
 div.box {
-  height: 100px;
+
   padding: 10px;
   overflow: auto;
-  border: 1px solid #8080FF;
-  background-color: #E5E5FF; }
+ }
 
 /* *********  /tables styling  ****************************** */
 /* *********  /dashboard widget  **************************** */
