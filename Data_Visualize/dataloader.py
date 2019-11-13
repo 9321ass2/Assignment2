@@ -90,17 +90,30 @@ def pre_process_KNN(dataframe, region = None, genere = None, platform = None):
     # else:
     #     dataframe.drop(columns = sale_list, inplace = True) # only keep global sales
 
-    dataframe.to_csv('KNN.csv', index = False)
+    #dataframe.to_csv('KNN.csv', index = False)
     return dataframe
 
+def game_30(df_pop, df_full):
+    df_pop.columns = ['Rank']
+    temp = pd.DataFrame([[1]], columns=['Rank'])
+    df_pop = pd.concat([temp, df_pop], sort=False)
+    pop_30 = pd.merge(df_pop, df_full, on='Rank')
+    return pop_30
 
 if __name__ == '__main__':
     csv_file = r'\DataSet\vgsales-12-4-2019-short.csv'
+    full_file = r'\DataSet\vgsales-12-4-2019.csv'
+    pop_file = r'\DataSet\popular_games_output.csv'
+
     df = read_csv(csv_file)
+    df_full = read_csv(full_file)
+    df_pop = read_csv(pop_file)
+
+    #game_30(df_pop, df_full)
 
     # processed_df = pre_process_top(df, s_or_r = 1)
     # processed_df = pre_process_top(df, platform = 'PC', s_or_r = 1)
-    df = pre_process_KNN(df)
+    #df = pre_process_KNN(df)
 
     #df = pre_process_LR_sale(df)
     #df = pre_process_LR_count(df)
