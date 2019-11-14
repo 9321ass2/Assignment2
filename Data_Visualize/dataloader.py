@@ -98,22 +98,22 @@ def game_30(df_pop, df_full):
     temp = pd.DataFrame([[1]], columns=['Rank'])
     df_pop = pd.concat([temp, df_pop], sort=False)
     pop_30 = pd.merge(df_pop, df_full, on='Rank')
+    pop_30.to_csv('game_30.csv', index = False)
     return pop_30
 
 if __name__ == '__main__':
     csv_file = r'\DataSet\vgsales-12-4-2019-short.csv'
     full_file = r'\DataSet\vgsales-12-4-2019.csv'
     pop_file = r'\DataSet\popular_games_output.csv'
-
+    knn_file = r'\DataSet\KNN.csv'
     df = read_csv(csv_file)
     df_full = read_csv(full_file)
     df_pop = read_csv(pop_file)
-
-    #game_30(df_pop, df_full)
+    df_KNN = pre_process_KNN(df_full)
+    game_30(df_pop, df_KNN)
 
     # processed_df = pre_process_top(df, s_or_r = 1)
     # processed_df = pre_process_top(df, platform = 'PC', s_or_r = 1)
-    #df = pre_process_KNN(df)
 
     #df = pre_process_LR_sale(df)
     #df = pre_process_LR_count(df)
