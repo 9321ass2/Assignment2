@@ -4,6 +4,8 @@ import pandas as pd
 
 
 def read_csv(csv_file):
+    path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    csv_file = path + csv_file
     return pd.read_csv(csv_file)
 
 def pre_process(dataframe, region='Global_Sales', genere=None, platform=None, s_or_r = 0):
@@ -41,13 +43,11 @@ def display_chart(dataframe):
 
 
 if __name__ == '__main__':
-    path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     csv_file = r'\DataSet\vgsales-12-4-2019-short.csv'
-    csv_file = path + csv_file
     df = read_csv(csv_file)
-    #processed_df = pre_process(df, s_or_r = 1, genere = 'Action')
-    #processed_df = pre_process(df, s_or_r = 1, platform = 'PC')
-    processed_df = pre_process(df, s_or_r = 1, genere = 'Action', platform = 'PC')
-    #processed_df = pre_process(df, s_or_r = 1)
+    #processed_df = pre_process(df, s_or_r = 1, genere = 'Action') # example for all platform Action games
+    #processed_df = pre_process(df, s_or_r = 1, platform = 'PC') # example for all PC games
+    processed_df = pre_process(df, s_or_r = 1, genere = 'Action', platform = 'PC') # example for all PC Action games
+    #processed_df = pre_process(df, s_or_r = 1) # example for all platform all genres games
     display_chart(processed_df)
 
