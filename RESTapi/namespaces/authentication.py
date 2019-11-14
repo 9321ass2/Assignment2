@@ -38,7 +38,7 @@ class AuthenticationToken:
 
 
 SECRET_KEY = "A SECRET KEY; USUALLY A VERY LONG RANDOM STRING"
-expires_in = 10
+expires_in = 600
 auth = AuthenticationToken(SECRET_KEY, expires_in)
 
 
