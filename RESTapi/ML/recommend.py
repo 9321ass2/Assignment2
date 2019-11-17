@@ -4,8 +4,8 @@ import pandas as pd
 
 # Input is a simple array with virable length.
 # Array contains serval numbers refer to rank of games.
-def get_user_favorite():
-    uf = pd.read_csv('./ML/Data_Visualize/user_favorite.csv')
+def get_user_favorite(plist):
+    uf = pd.DataFrame(data=plist,)
     return uf
 
 
@@ -15,8 +15,13 @@ def get_all_games():
 
 
 def get_pop_games():
-    pg = pd.read_csv('./ML/Data_Visualize/game_30.csv')
+    pg = pd.read_csv('./ML/DataSet/game_30.csv')
     return pg
+
+
+def get_ori_games():
+    og = pd.read_csv('./ML/DataSet/vgsales-12-4-2019.csv')
+    return og
 
 
 def get_user_game_details(user_df, all_data):
@@ -33,18 +38,19 @@ def get_user_game_details(user_df, all_data):
 
 
 def get_gram_matrix():
-    df = pd.read_csv('./ML/Data_Visualize/gram_matrix.csv')
+    df = pd.read_csv('./ML/DataSet/relevance_matrix.csv')
     return df
 
 
-def Recommand_Game():
-    usr_game = get_user_favorite()
+def Recommend_Game(plist):
+    usr_game = get_user_favorite(plist)
     all_game = get_all_games()
     pop_game = get_pop_games()
+    get_url = get_ori_games()
     ESRB_list, platform_list = get_user_game_details(usr_game, all_game)
     gram_matrix = get_gram_matrix()
     recommend_list = []
-    target_list = list(np.array(usr_game)[:, 0])
+    target_list = list(np.array(usr_game)[:,0])
     tar_num = len(target_list)
     for row in usr_game.itertuples():
         rank = row[1]
@@ -65,9 +71,9 @@ def Recommand_Game():
         step = 0
         for j in i:
             if j[1] != 1:
-                final_list.append((int(j[0]) + 1, j[1]))
-                step += 1
-                if step > 5:
+                final_list.append((int(j[0])+1, j[1]))
+                step+=1
+                if step>5:
                     break
     final_list = pd.DataFrame(final_list)
     final_list = final_list.sort_values(by=[1], ascending=False)
@@ -76,6 +82,20 @@ def Recommand_Game():
     for row in final_list.itertuples():
         if (row[1] not in output) and (row[1] not in target_list):
             output.append(row[1])
-    output_df = pd.DataFrame(output)
-    output_df.to_csv('./ML/Data_Visualize/recommend_rank.csv')
-    return output_df
+    output_df = pd.DataFrame(output).rename(
+        columns={0: 'Rank'}).sort_values(by=['Rank'])
+    game_name_list = []
+    for i in output_df.itertuples():
+        name = all_game[all_game['Rank'] == i[1]]['Name'].values[0]
+        url = get_url[get_url['Rank'] == i[1]]['img_url'].values[0]
+        if name not in game_name_list:
+            output_df.loc[i[0], 'Name'] = name
+            output_df.loc[i[0], 'img_url'] = url
+            game_name_list.append(name)
+        else:
+            output_df.loc[i[0], 'Name'] = np.NaN
+    output_df = output_df.dropna()
+    #output_df.to_csv('./ML/DataSet/recommend_games.csv',index=False,)
+    return list(output_df.Name)
+    
+    

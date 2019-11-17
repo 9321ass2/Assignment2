@@ -2,6 +2,7 @@ from restapi import api, client
 from flask_restplus import Resource, abort
 from flask import request
 from infra.models import *
+from infra.function import *
 from flask_restplus import reqparse
 from itsdangerous import SignatureExpired, JSONWebSignatureSerializer, BadSignature
 from functools import wraps
@@ -61,29 +62,6 @@ def requires_auth(f):
 
     return decorated
 
-
-credential_parser = reqparse.RequestParser()
-credential_parser.add_argument('username', type=str)
-credential_parser.add_argument('password', type=str)
-
-
-@Authen.route('/token')
-class Token(Resource):
-    @Authen.response(200, 'Successful')
-    @Authen.doc(description="Generates a authentication token")
-    @Authen.expect(credential_parser, validate=True)
-    def get(self):
-        args = credential_parser.parse_args()
-
-        username = args.get('username')
-        password = args.get('password')
-
-        verification = DataCollection.find_one({"username": username, "password": password})
-        if verification is not None:
-            return {"token": auth.generate_token(username)}
-        return {"message": "authorization has been refused for those credentials."}, 401
-
-
 @Authen.route('/register', strict_slashes=False)
 class Register(Resource):
     @Authen.response(200, 'Success', Format_Register)
@@ -104,4 +82,24 @@ class Register(Resource):
         if query is not None:
             abort(403, 'Duplicate Username')
         DataCollection.insert_one(request.json)
+        instance = {'username': user, 'token': ''}
+        TokenCollection.insert_one(instance)
         return {"Status": "Success"}, 200
+
+
+@Authen.route('/token')
+class Token(Resource):
+    @Authen.response(200, 'Successful')
+    @Authen.doc(description="Generates a authentication token")
+    @Authen.expect(Format_Credential1,Format_Credential2)
+    def get(self):
+        username = request.headers['username']
+        password = request.headers['password']
+        verification = DataCollection.find_one({"username": username, "password": password})
+        if verification is not None:
+            token = auth.generate_token(username)
+            TokenCollection.update_one({'username': username}, {"$set": {"token": token}})
+            return {"token": token}
+        return {"message": "authorization has been refused for those credentials."}, 401
+
+
