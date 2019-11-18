@@ -7,22 +7,20 @@ def read_csv(csv_file):
     csv_file = path + csv_file
     return pd.read_csv(csv_file)
 
-def pre_process_top(dataframe, region=None, genere=None, platform=None, s_or_r = 0):
-    dataframe.loc[dataframe['Global_Sales'].isnull(),'Global_Sales'] = dataframe[dataframe['Global_Sales'].isnull()]['Total_Shipped']
-    label = 'Platform'
-    if platform:
-        dataframe = dataframe[dataframe['Platform'].str.contains(platform)]
-        label = 'Genre'
+def pre_process_top(dataframe, region='Global_Sales', genere=None, platform=None, year=0):
+    num_list = ['Critic_Score', 'User_Score', 'Year', 'Total_Shipped', 'Global_Sales', 'NA_Sales', 'PAL_Sales', 'JP_Sales', 'Other_Sales']
+    for each in num_list:
+        dataframe[each].fillna(0, inplace = True)
+    dataframe['Global_Sales'] += dataframe['Total_Shipped'] #merge Total_Shipped and Global_Sales into Global_Sales
+    dataframe.sort_values(by = [region], ascending  = False, inplace = True)
+    dataframe = dataframe[dataframe.Year > year]
     if genere:
         dataframe = dataframe[dataframe['Genre'].str.contains(genere)]
-    if s_or_r:
-        sale = dataframe.sort_values(by = ['Global_Sales'], ascending  = False)
-        sale = sale.head(10)[['Name', label, 'Global_Sales']]
-        print(sale)
-        return sale
-    else:
-        dataframe.sort_values(by = ['Critic_Score'], ascending = False, inplace = True)
-        sale = dataframe.head(10)[['Name', 'Platform', 'Critic_Score']]
+    if platform:
+        dataframe = dataframe[dataframe['Platform'].str.contains(platform)]
+    sale = dataframe.head(10)[['Name', 'Platform', 'Developer', 'Critic_Score', region]]
+    print(sale)
+    return sale
 
 def pre_process_LR(dataframe, region = None, genere = None, platform = None):
     dataframe.dropna(how = 'all', subset=['Global_Sales', 'Total_Shipped'], inplace = True) #clean total sale is Null
@@ -63,8 +61,37 @@ def pre_process_LR_sale(dataframe):
         dataframe[str(i)] = temp
     return dataframe
 
+def pre_process_LR_ESRN_NULL(dataframe):
+    num_list = ['Total_Shipped', 'Global_Sales' ]
+    for each in num_list:
+        dataframe[each].fillna(0, inplace = True)
+    dataframe['Total_Shipped'] += dataframe['Global_Sales']
+    useless_list = ['VGChartz_Score', 'Critic_Score', 'User_Score', 'Global_Sales', 'NA_Sales', 'PAL_Sales', 'JP_Sales' ,'Other_Sales' ,'Year' ,'Last_Update' ,'url' ,'status' ,'Vgchartzscore' ,'img_url']
+    dataframe.drop(columns = useless_list, inplace = True)
+    df_NOT_NULL = dataframe.dropna(subset=['ESRB_Rating'])
+    df_NULL = dataframe[dataframe['ESRB_Rating'].isnull()]
+    df_NOT_NULL.to_csv('df_NOT_NULL.csv', index = False)
+    df_NULL.to_csv('df_NULL.csv', index = False)
+    useless_list.append('ESRB_Rating')
+    dataframe.drop(columns = useless_list, inplace = True)
+    dataframe.to_csv('df_ALL.csv', index = False)
+    return dataframe
+
     # dataframe.to_csv('sale.csv', index = False)
 
+def pre_process_LR_0_2020(dataframe):
+    useless_list = ['VGChartz_Score', 'Critic_Score', 'User_Score', 'Total_Shipped', 'Global_Sales', 'NA_Sales', 'PAL_Sales', 'JP_Sales' ,'Other_Sales' ,'Last_Update' ,'url' ,'status' ,'Vgchartzscore' ,'img_url']
+    dataframe.drop(columns = useless_list, inplace = True)
+    dataframe['Year'].fillna(0, inplace = True)
+    df_0 = dataframe[dataframe['Year'] == 0]
+    df_2020 = dataframe[dataframe['Year'] == 2020]
+    frames = [df_0, df_2020]
+    df_0_2020 = pd.concat(frames)
+
+    dataframe.drop(dataframe[(dataframe.Year == 0) | (dataframe.Year == 2020)].index, inplace = True)
+    df_0_2020.to_csv('df_0_2020.csv', index = False)
+    dataframe.to_csv('df_other.csv', index = False)
+    return dataframe
 
 def pre_process_KNN(dataframe, region = None, genere = None, platform = None):
     num_list = ['Critic_Score', 'User_Score', 'Year', 'Total_Shipped', 'Global_Sales', 'NA_Sales', 'PAL_Sales', 'JP_Sales', 'Other_Sales']
@@ -101,19 +128,34 @@ def game_30(df_pop, df_full):
     pop_30.to_csv('game_30.csv', index = False)
     return pop_30
 
+def somne_useful_list(dataframe, column_name):
+    column = [column_name]
+    result = dataframe.drop_duplicates(subset=column)[column_name]
+    result.to_csv(f'{column_name}.csv', index = False, header=False)
+    return result
+
 if __name__ == '__main__':
     csv_file = r'\DataSet\vgsales-12-4-2019-short.csv'
     full_file = r'\DataSet\vgsales-12-4-2019.csv'
     pop_file = r'\DataSet\popular_games_output.csv'
     knn_file = r'\DataSet\KNN.csv'
-    df = read_csv(csv_file)
+    #df = read_csv(csv_file)
     df_full = read_csv(full_file)
-    df_pop = read_csv(pop_file)
-    df_KNN = pre_process_KNN(df_full)
-    game_30(df_pop, df_KNN)
+    #pre_process_top(df_full, year = 2016)
+    #pre_process_LR_ESRN_NULL(df_full)
+    #pre_process_LR_0_2020(df_full)
+    #df_pop = read_csv(pop_file)
+    #df_KNN = pre_process_KNN(df_full)
+    #game_30(df_pop, df_KNN)
 
     # processed_df = pre_process_top(df, s_or_r = 1)
     # processed_df = pre_process_top(df, platform = 'PC', s_or_r = 1)
 
     #df = pre_process_LR_sale(df)
     #df = pre_process_LR_count(df)
+    column_name = 'Genre'
+    somne_useful_list(df_full, column_name)
+    column_name = 'Platform'
+    somne_useful_list(df_full, column_name)
+    column_name = 'Publisher'
+    somne_useful_list(df_full, column_name)

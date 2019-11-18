@@ -47,7 +47,7 @@ if __name__ == '__main__':
     df = read_csv(csv_file)
     #processed_df = pre_process(df, s_or_r = 1, genere = 'Action') # example for all platform Action games
     #processed_df = pre_process(df, s_or_r = 1, platform = 'PC') # example for all PC games
-    processed_df = pre_process(df, s_or_r = 1, genere = 'Action', platform = 'PC') # example for all PC Action games
-    #processed_df = pre_process(df, s_or_r = 1) # example for all platform all genres games
+    #processed_df = pre_process(df, s_or_r = 1, genere = 'Action', platform = 'PC') # example for all PC Action games
+    processed_df = pre_process(df, s_or_r = 1) # example for all platform all genres games
     display_chart(processed_df)
 
