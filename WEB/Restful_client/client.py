@@ -1,11 +1,16 @@
 import http.server as httpsrvr
 import socketserver as socketsrvr
 
-PORT = 8080
+if __name__ == '__main__':
 
-Handler = httpsrvr.SimpleHTTPRequestHandler
+    Handler = httpsrvr.SimpleHTTPRequestHandler
+    PORT = 8080
+    while True:
+        try:
+            httpd = socketsrvr.TCPServer(("", PORT), Handler)
+            break
+        except:
+            continue
 
-httpd = socketsrvr.TCPServer(("", PORT), Handler)
-
-print("serving at port")
-httpd.serve_forever()
+    print("serving at port %d" % PORT)
+    httpd.serve_forever()

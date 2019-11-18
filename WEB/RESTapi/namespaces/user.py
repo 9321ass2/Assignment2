@@ -1,6 +1,6 @@
 from infra.function import *
 from infra.models import *
-from restapi import api, client
+from restapi import api, client,api_info
 from flask_restplus import Resource, abort, reqparse, fields
 from flask import request
 from ML.recommend import Recommend_Game
@@ -20,6 +20,7 @@ class Recommend(Resource):
     @api.expect(Format_Token)
     @requires_auth
     def get(self):
+        api_info['Recommendation'] += 1
         token = request.headers['Auth-Token']
         Query_token = TokenCollection.find_one({'token':token},{'username': 1})
         if Query_token is None:
