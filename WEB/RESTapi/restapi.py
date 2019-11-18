@@ -1,6 +1,6 @@
 
 import pymongo
-from flask_cors import CORS
+
 from flask import Flask
 from flask_restplus import Api
 
@@ -9,7 +9,7 @@ client = pymongo.MongoClient("mongodb+srv://tommy:0000@comp9321-vlfpp.mongodb.ne
 
 
 app = Flask(__name__)
-CORS(app)
+
 api = Api(app, authorizations={
                 'API-KEY': {
                     'type': 'apiKey',

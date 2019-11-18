@@ -15,7 +15,7 @@ class Prediction(Resource):
     @predict.response(200, 'Success')
     @predict.response(403, 'duplicate document')
     @predict.response(400, 'Wrong Format')
-    @predict.expect(Format_Token, Format_Prediction_Post)
+    @predict.expect(Format_Token)
     @requires_auth
     def post(self):
         if not request.json:

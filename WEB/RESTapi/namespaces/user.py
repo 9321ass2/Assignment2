@@ -43,7 +43,7 @@ class Recommend(Resource):
             abort(400, 'Wrong Format')
         token = request.headers['Auth-Token']
         username = request.json['username']
-        if not User_Token(user,token):
+        if not User_Token(username,token):
             abort(406, 'Token:User unmatched')
         preferencelist = request.json['preference']
         query = FavoriteCollection.find_one({"username": username})
@@ -63,12 +63,14 @@ class Recommend(Resource):
             abort(400, 'Wrong Format')
         token = request.headers['Auth-Token']
         username = request.json['username']
-        if not User_Token(user,token):
+        preferencelist = request.json['preference']
+        if not User_Token(username,token):
             abort(406, 'Token:User unmatched')
         query = FavoriteCollection.find_one({"username": username})
         if query is not None:
             abort(403, 'duplicate document')
-        FavoriteCollection.insert_one(request.json)
+
+        FavoriteCollection.insert_one({'username':username,'preference': preferencelist})
         return {'status': 'ok'}, 200
 
 
