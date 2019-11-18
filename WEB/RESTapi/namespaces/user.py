@@ -29,6 +29,7 @@ class Recommend(Resource):
         if Query_Pref is None:
             abort(406,'User not in PrefCollect')
         PreferenceList = [int(element) for element in Query_Pref['preference']]
+        print(PreferenceList)
         gamelist = Recommend_Game(PreferenceList)
         return {"games": gamelist},200
 
@@ -49,7 +50,7 @@ class Recommend(Resource):
         query = FavoriteCollection.find_one({"username": username})
         if query is None:
             abort(403, 'User not in PrefCollect')
-        FavoriteCollection.update_one({'username': user},{"$set": {"preference": preferencelist}})
+        FavoriteCollection.update_one({'username': username},{"$set": {"preference": preferencelist}})
         return{'status': 'ok'}, 200
 
     @user.response(200, 'Success')

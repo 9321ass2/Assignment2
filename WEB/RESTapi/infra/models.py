@@ -4,7 +4,7 @@ from flask_restplus import fields
 
 Format_Recommend = api.model('Format_Recommend', {
   'username': fields.String(required=True, example='user'),
-  'preference': fields.List(fields.String,required=True, example='digit'),
+  'preference': fields.List(fields.String),
 })
 Format_Register = api.model('Format_Register', {
   'username': fields.String(required=True, example='Martin'),

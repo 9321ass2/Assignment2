@@ -7,23 +7,15 @@ import pandas as pd
 def get_user_favorite(plist):
     uf = pd.DataFrame(data=plist,)
     return uf
-
-
 def get_all_games():
     ag = pd.read_csv('./ML/Data_Visualize/KNN.csv')
     return ag
-
-
 def get_pop_games():
     pg = pd.read_csv('./ML/DataSet/game_30.csv')
     return pg
-
-
 def get_ori_games():
     og = pd.read_csv('./ML/DataSet/vgsales-12-4-2019.csv')
     return og
-
-
 def get_user_game_details(user_df, all_data):
     ESRB_list = []
     platform_list = []
@@ -35,13 +27,9 @@ def get_user_game_details(user_df, all_data):
     ESRB_list = list(set(ESRB_list))
     platform_list = list(set(platform_list))
     return ESRB_list, platform_list
-
-
 def get_gram_matrix():
     df = pd.read_csv('./ML/DataSet/relevance_matrix.csv')
     return df
-
-
 def Recommend_Game(plist):
     usr_game = get_user_favorite(plist)
     all_game = get_all_games()
