@@ -22,7 +22,10 @@ Format_Login = api.model('Format_Login', {
   'password': fields.String(required=True, example='1234'),
 })
 
-
+Format_Prediction_Post = api.model('Format_Recommend_POST', {
+  'username': fields.String(required=True, example='xX_greginator_Xx'),
+  'preference': fields.List(fields.String)
+})
 
 Format_Token = api.parser().add_argument('AUTH-TOKEN',location='headers')
 Format_Credential1 = api.parser().add_argument('username',location='headers')

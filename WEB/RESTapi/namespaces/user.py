@@ -9,6 +9,7 @@ UserDB = client.USER
 TokenCollection = UserDB.tokens
 FavoriteCollection = UserDB.preference
 user = api.namespace('USER', description='User Information Services')
+
 @user.route('/Recommend', strict_slashes=False)
 class Recommend(Resource):
     @user.response(200, 'Success')
@@ -27,8 +28,9 @@ class Recommend(Resource):
         Query_Pref = FavoriteCollection.find_one({'username':user},{'preference':1})
         if Query_Pref is None:
             abort(406,'User not in PrefCollect')
-        PreferenceList = Query_Pref['preference']
-        print(PreferenceList)
+        PreferenceList = [ int(element) for element in Query_Pref['preference'] ]
+
+
         gamelist = Recommend_Game(PreferenceList)
         return {"games": gamelist},200
     @user.response(200, 'Success')
@@ -45,3 +47,5 @@ class Recommend(Resource):
             abort(403, 'duplicate document')
         FavoriteCollection.insert_one(request.json)
         return{'status': 'ok'}, 200
+
+
