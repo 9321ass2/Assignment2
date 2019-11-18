@@ -24,28 +24,51 @@ class Recommend(Resource):
         Query_token = TokenCollection.find_one({'token':token},{'username': 1})
         if Query_token is None:
             abort(403,'User not in TokenCollect')
-        user = Query_token['username']
-        Query_Pref = FavoriteCollection.find_one({'username':user},{'preference':1})
+        username = Query_token['username']
+        Query_Pref = FavoriteCollection.find_one({'username':username},{'preference':1})
         if Query_Pref is None:
             abort(406,'User not in PrefCollect')
-        PreferenceList = [ int(element) for element in Query_Pref['preference'] ]
-
-
+        PreferenceList = [int(element) for element in Query_Pref['preference']]
         gamelist = Recommend_Game(PreferenceList)
         return {"games": gamelist},200
+
+    @user.response(200, 'Success')
+    @user.response(403, 'User not in PrefCollect')
+    @user.response(400, 'Wrong Format')
+    @user.response(406, 'Token:User unmatched')
+    @api.expect(Format_Token,Format_Recommend)
+    @requires_auth
+    def put(self):
+        if not request.json:
+            abort(400, 'Wrong Format')
+        token = request.headers['Auth-Token']
+        username = request.json['username']
+        if not User_Token(user,token):
+            abort(406, 'Token:User unmatched')
+        preferencelist = request.json['preference']
+        query = FavoriteCollection.find_one({"username": username})
+        if query is None:
+            abort(403, 'User not in PrefCollect')
+        FavoriteCollection.update_one({'username': user},{"$set": {"preference": preferencelist}})
+        return{'status': 'ok'}, 200
+
     @user.response(200, 'Success')
     @user.response(403, 'duplicate document')
     @user.response(400, 'Wrong Format')
-    @api.expect(Format_Token,Format_Recommend_Post)
+    @user.response(406, 'Token:User unmatched')
+    @api.expect(Format_Token, Format_Recommend)
     @requires_auth
     def post(self):
         if not request.json:
             abort(400, 'Wrong Format')
-        user = request.json['username']
-        query = FavoriteCollection.find_one({"username": user})
+        token = request.headers['Auth-Token']
+        username = request.json['username']
+        if not User_Token(user,token):
+            abort(406, 'Token:User unmatched')
+        query = FavoriteCollection.find_one({"username": username})
         if query is not None:
             abort(403, 'duplicate document')
         FavoriteCollection.insert_one(request.json)
-        return{'status': 'ok'}, 200
+        return {'status': 'ok'}, 200
 
 

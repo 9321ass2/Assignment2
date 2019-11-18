@@ -18,7 +18,6 @@ api = Api(app, authorizations={
                 }
             },
           security='API-KEY',
-          default="",  # Default namespace
-          title="COMP9321",  # Documentation Title
-          description="Connect to MLAB CLOUD MongoDB ")  # Documentation Description
+          title="Restful API for Game Recommendation and Prediction",  # Documentation Title
+          description="Connect to Atlas MongoDB ")  # Documentation Description
 

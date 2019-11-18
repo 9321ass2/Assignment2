@@ -2,14 +2,10 @@ from restapi import api
 from flask_restplus import fields
 
 
-Format_Recommend_Post = api.model('Format_Recommend_POST', {
+Format_Recommend = api.model('Format_Recommend_POST', {
   'username': fields.String(required=True, example='xX_greginator_Xx'),
   'preference': fields.List(fields.Integer),
 })
-Format_Recommend_Get = api.model('Format_Recommend_GET', {
-  'username': fields.String(required=True, example='xX_greginator_Xx'),
-})
-
 Format_Register = api.model('Format_Register', {
   'username': fields.String(required=True, example='xX_greginator_Xx'),
   'password': fields.String(required=True, example='1234'),
