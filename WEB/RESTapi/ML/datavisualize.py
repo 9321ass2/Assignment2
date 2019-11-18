@@ -21,10 +21,10 @@ def Create_Top3Sales():
     full_file = "./ML/DataSet/vgsales-12-4-2019.csv"
     df_full = pd.read_csv(full_file)
     df_topsales = pre_process_top(df_full, year=2016).head(3)
-    top3list =[]
+    top3list = []
     for x in df_topsales.Name:
         top3list.append([x])
-    i=0
+    i = 0
     for x in df_topsales.Platform:
         top3list[i].append(x)
         i += 1
@@ -35,9 +35,17 @@ def Create_Top3Sales():
     i = 0
     for x in df_topsales.Critic_Score:
         top3list[i].append(x)
-        i  += 1
+        i += 1
     i = 0
     for x in df_topsales.Global_Sales:
         top3list[i].append(x)
         i += 1
     return top3list
+
+
+def Create_Popular30():
+    csv_file = "./ML/DataSet/game_30.csv"
+    df = pd.read_csv(csv_file)
+    df1 = df[['Name', 'Platform']]
+    g30_json = df1.to_json(orient='records')
+    return g30_json

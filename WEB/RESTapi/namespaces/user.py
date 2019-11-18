@@ -73,7 +73,6 @@ class Recommend(Resource):
         query = FavoriteCollection.find_one({"username": username})
         if query is not None:
             abort(403, 'duplicate document')
-
         FavoriteCollection.insert_one({'username':username,'preference': preferencelist})
         return {'status': 'ok'}, 200
 
