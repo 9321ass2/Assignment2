@@ -18,6 +18,6 @@ Format_Login = api.model('Format_Login', {
   'password': fields.String(required=True, example='1234'),
 })
 
-Format_Token = api.parser().add_argument('AUTH-TOKEN',location='headers')
-Format_Credential1 = api.parser().add_argument('username',location='headers')
-Format_Credential2 = api.parser().add_argument('password',location='headers')
+Format_Token = api.parser().add_argument('AUTH-TOKEN',location='headers',help=' put your TOKEN here',required=True)
+Format_Credential1 = api.parser().add_argument('username',location='headers',required=True)
+Format_Credential2 = api.parser().add_argument('password',location='headers',required=True)

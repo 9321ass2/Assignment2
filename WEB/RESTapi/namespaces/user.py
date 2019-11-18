@@ -16,7 +16,7 @@ class Recommend(Resource):
     @user.response(403, 'User not in TokenCollect')
     @user.response(400, 'Wrong Format')
     @user.response(406, 'User not in PrefCollect')
-    @user.doc(description=''' User info''')
+    @user.doc(description=''' Get : retrieve the preference from DB then return the recommendation list ''')
     @api.expect(Format_Token)
     @requires_auth
     def get(self):
@@ -37,6 +37,7 @@ class Recommend(Resource):
     @user.response(403, 'User not in PrefCollect')
     @user.response(400, 'Wrong Format')
     @user.response(406, 'Token:User unmatched')
+    @user.doc(description='''  PUT : update the client's preference to DB ''')
     @api.expect(Format_Token,Format_Recommend)
     @requires_auth
     def put(self):
@@ -57,6 +58,7 @@ class Recommend(Resource):
     @user.response(403, 'duplicate document')
     @user.response(400, 'Wrong Format')
     @user.response(406, 'Token:User unmatched')
+    @user.doc(description=''' POST : submit the client's preference to DB''')
     @api.expect(Format_Token, Format_Recommend)
     @requires_auth
     def post(self):

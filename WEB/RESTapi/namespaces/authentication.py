@@ -3,7 +3,6 @@ from flask_restplus import Resource, abort
 from flask import request
 from infra.models import *
 from infra.function import *
-from flask_restplus import reqparse
 from itsdangerous import SignatureExpired, JSONWebSignatureSerializer, BadSignature
 from functools import wraps
 from time import time
@@ -64,12 +63,12 @@ def requires_auth(f):
 
 @Authen.route('/register', strict_slashes=False)
 class Register(Resource):
-    @Authen.response(200, 'Success', Format_Register)
+    @Authen.response(200, 'Success')
     @Authen.response(400, 'Wrong Format')
     @Authen.response(403, 'Duplicate Username')
     @api.expect(Format_Register)
     @Authen.doc(description='''
-           register and get the token
+           Signup to get the membership
         ''')
     def post(self):
         if not request.json:
@@ -90,6 +89,7 @@ class Register(Resource):
 @Authen.route('/token')
 class Token(Resource):
     @Authen.response(200, 'Successful')
+    @Authen.response(401,  "authorization has been refused for those credentials.")
     @Authen.doc(description="Generates a authentication token")
     @Authen.expect(Format_Credential1,Format_Credential2)
     def get(self):
