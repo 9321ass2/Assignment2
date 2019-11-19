@@ -1,7 +1,7 @@
 import pandas as pd 
 
 # Test accuracy by checking difference between given & recommend 'Genre'.
-knn = pd.read_csv('./ML/Data_Visualize/KNN.csv')
+knn = pd.read_csv('./ML/DataSet/KNN.csv')
 uf = pd.read_csv('./ML/DataSet/user_favorite.csv')
 rr = pd.read_csv('./ML/DataSet/recommend_games.csv')
 genre_given = []
