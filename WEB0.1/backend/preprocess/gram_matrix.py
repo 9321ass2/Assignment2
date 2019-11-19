@@ -18,7 +18,7 @@ def ESRB_cal(x, y):
         
 def relevance_score_cal():
     gram_matrix = np.zeros((3000, 3000))
-    pg = pd.read_csv('../ML/Data_Visualize/KNN.csv')
+    pg = pd.read_csv('../ML/DataSet/KNN.csv')
     pg = pg.head(3000)
     for outer in pg.itertuples():
         ORK = int(outer[1])
