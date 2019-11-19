@@ -8,7 +8,7 @@ def get_user_favorite(plist):
     uf = pd.DataFrame(data=plist,)
     return uf
 def get_all_games():
-    ag = pd.read_csv('./ML/Data_Visualize/KNN.csv')
+    ag = pd.read_csv('./ML/DataSet/KNN.csv')
     return ag
 def get_pop_games():
     pg = pd.read_csv('./ML/DataSet/game_30.csv')
