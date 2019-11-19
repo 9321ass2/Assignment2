@@ -1,0 +1,31 @@
+Rank,Name,Genre,ESRB_Rating,Platform,Publisher,Developer,Critic_Score,User_Score,Global_Sales,NA_Sales,PAL_Sales,JP_Sales,Other_Sales,Year
+1,Wii Sports,Sports,E,Wii,Nintendo,Nintendo EAD,7.7,0.0,82.86,0.0,0.0,0.0,0.0,2006.0
+2,Super Mario Bros.,Platform,Unknown,NES,Nintendo,Nintendo EAD,10.0,0.0,40.24,0.0,0.0,0.0,0.0,1985.0
+3,Mario Kart Wii,Racing,E,Wii,Nintendo,Nintendo EAD,8.2,9.1,37.14,0.0,0.0,0.0,0.0,2008.0
+4,PlayerUnknown's Battlegrounds,Shooter,Unknown,PC,PUBG Corporation,PUBG Corporation,0.0,0.0,36.6,0.0,0.0,0.0,0.0,2017.0
+5,Wii Sports Resort,Sports,E,Wii,Nintendo,Nintendo EAD,8.0,8.8,33.09,0.0,0.0,0.0,0.0,2009.0
+6,Pokemon Red / Green / Blue Version,Role-Playing,E,GB,Nintendo,Game Freak,9.4,0.0,31.38,0.0,0.0,0.0,0.0,1998.0
+7,New Super Mario Bros.,Platform,E,DS,Nintendo,Nintendo EAD,9.1,8.1,30.8,0.0,0.0,0.0,0.0,2006.0
+8,Tetris,Puzzle,E,GB,Nintendo,Bullet Proof Software,0.0,0.0,30.26,0.0,0.0,0.0,0.0,1989.0
+9,New Super Mario Bros. Wii,Platform,E,Wii,Nintendo,Nintendo EAD,8.6,9.2,30.22,0.0,0.0,0.0,0.0,2009.0
+10,Minecraft,Misc,Unknown,PC,Mojang,Mojang AB,10.0,0.0,30.01,0.0,0.0,0.0,0.0,2010.0
+11,Duck Hunt,Shooter,Unknown,NES,Nintendo,Nintendo R&D1,0.0,0.0,28.31,0.0,0.0,0.0,0.0,1985.0
+12,Wii Play,Misc,E,Wii,Nintendo,Nintendo EAD,5.9,4.5,28.02,0.0,0.0,0.0,0.0,2007.0
+13,Kinect Adventures!,Party,E,X360,Microsoft Game Studios,Good Science Studio,6.7,0.0,24.0,0.0,0.0,0.0,0.0,2010.0
+14,Nintendogs,Simulation,E,DS,Nintendo,Nintendo EAD,8.4,0.0,23.96,0.0,0.0,0.0,0.0,2005.0
+15,Mario Kart DS,Racing,E,DS,Nintendo,Nintendo EAD,9.1,9.4,23.6,0.0,0.0,0.0,0.0,2005.0
+16,Pokemon Gold / Silver Version,Role-Playing,E,GB,Nintendo,Game Freak,9.2,0.0,23.1,0.0,0.0,0.0,0.0,2000.0
+17,Wii Fit,Sports,E,Wii,Nintendo,Nintendo EAD,7.9,0.0,22.67,0.0,0.0,0.0,0.0,2008.0
+18,Wii Fit Plus,Sports,E,Wii,Nintendo,Nintendo EAD,8.0,0.0,21.13,0.0,0.0,0.0,0.0,2009.0
+19,Super Mario World,Platform,E,SNES,Nintendo,Nintendo EAD,8.5,0.0,20.61,0.0,0.0,0.0,0.0,1991.0
+20,Grand Theft Auto V,Action,M,PS3,Rockstar Games,Rockstar North,9.4,0.0,20.32,6.37,9.85,0.99,3.12,2013.0
+21,Grand Theft Auto V,Action,M,PS4,Rockstar Games,Rockstar North,9.7,0.0,19.39,6.06,9.71,0.6,3.02,2014.0
+35,Call of Duty: Black Ops 3,Shooter,M,PS4,Activision,Treyarch,0.0,0.0,15.09,6.18,6.05,0.41,2.44,2015.0
+46,Red Dead Redemption 2,Action-Adventure,M,PS4,Rockstar Games,Rockstar Games,9.8,0.0,13.94,5.26,6.21,0.21,2.26,2018.0
+49,Super Mario Odyssey,Platform,E10,NS,Nintendo,Nintendo EPD,9.9,0.0,13.76,0.0,0.0,0.0,0.0,2017.0
+53,Super Smash Bros. Brawl,Fighting,T,Wii,Nintendo,Project Sora,9.2,9.7,13.29,0.0,0.0,0.0,0.0,2008.0
+87,RollerCoaster Tycoon 3,Strategy,E,PC,Atari,Frontier Developments,8.3,0.0,10.0,0.0,0.0,0.0,0.0,2004.0
+128,The Legend of Zelda: Ocarina of Time,Adventure,E,N64,Nintendo,Nintendo EAD,9.9,10.0,7.6,0.0,0.0,0.0,0.0,1998.0
+146,Just Dance 4,Music,E10,Wii,Ubisoft,Ubisoft,0.0,0.0,6.89,4.05,2.21,0.0,0.62,2012.0
+283,World of Warcraft: Cataclysm,MMO,T,PC,Blizzard Entertainment,Blizzard Entertainment,9.0,0.0,4.7,0.0,0.0,0.0,0.0,2010.0
+1617,Anno 2070,Strategy,RP,PC,Ubisoft,Blue Byte Studio,8.7,0.0,1.4,0.0,1.14,0.0,0.26,2011.0
