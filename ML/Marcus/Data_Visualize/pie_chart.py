@@ -3,11 +3,18 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def pie_preprocess(df, year = None):
+def pre_process_count_pie(dataframe, year = None, platform = None, genre = None): # for RL counts -> genre
+    dataframe = dataframe.groupby(['Genre', 'Year', 'Platform']).size().reset_index(name='counts')
+    print(dataframe)
+    #total_count = dataframe.groupby(['Year', 'Platform'])['counts'].sum()
+    #dataframe = pd.merge(dataframe, total_count, on='Year')
+    #dataframe.rename({'counts_x': 'counts', 'counts_y': 'total_counts'}, axis=1, inplace=True)
+    print(dataframe)
     if year:
-        df = df[df.Year >= year]
-    df = df.groupby(['Genre'])['Genre','counts'].sum()
-    return df
+        dataframe = dataframe[dataframe.Year >= year]
+    if 
+    dataframe = dataframe.groupby(['Genre'])['Genre','counts'].sum()
+    return dataframe
 
 def display_pie(df):
     print(df)
@@ -28,6 +35,5 @@ def display_pie(df):
 if __name__ == '__main__':
     full_file = r'\DataSet\vgsales-12-4-2019.csv'
     df_full = read_csv(full_file)
-    df_count = pre_process_LR_count(df_full)
-    df_count = pie_preprocess(df_count, year = None)
+    df_count = pre_process_count_pie(df_full)
     display_pie(df_count)
