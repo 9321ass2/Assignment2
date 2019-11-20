@@ -7,7 +7,7 @@ from .authentication import requires_auth
 UserDB = client.USER
 TokenCollection = UserDB.tokens
 FavoriteCollection = UserDB.preference
-predict = api.namespace('PREDICT', description='predict Services')
+predict = api.namespace('predict', description='predict Services')
 
 
 @predict.route('/Linear', strict_slashes=False)

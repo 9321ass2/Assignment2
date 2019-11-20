@@ -5,12 +5,47 @@ from flask_restplus import Resource, abort, reqparse, fields
 from flask import request
 from ML.recommend import Recommend_Game
 from .authentication import requires_auth
+from bson import ObjectId
+import json
 UserDB = client.USER
+UserCollection = UserDB.data
 TokenCollection = UserDB.tokens
 FavoriteCollection = UserDB.preference
-user = api.namespace('USER', description='User Information Services')
+user = api.namespace('users', description='User Information Services')
 
-@user.route('/Recommend', strict_slashes=False)
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
+
+@user.route('', strict_slashes=False)
+class UsersList(Resource):
+    @user.response(200, 'Success')
+    @user.doc(description=''' Get : retrieve the preference from DB then return the recommendation list ''')
+    @api.expect(Format_Token)
+    @requires_auth
+    def get(self):
+            ans = UserCollection.find({},{'username':1,'email':1,'_id': 0})
+            ret = []
+            for doc in ans:
+                js = JSONEncoder().encode(doc)
+                js  = js.replace("\"",'')
+                ret.append(js)
+            return ret
+
+
+
+
+
+
+
+
+
+
+
+@user.route('/recommend', strict_slashes=False)
 class Recommend(Resource):
     @user.response(200, 'Success')
     @user.response(403, 'User not in TokenCollect')

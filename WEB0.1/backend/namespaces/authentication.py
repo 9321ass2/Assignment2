@@ -7,7 +7,7 @@ from itsdangerous import SignatureExpired, JSONWebSignatureSerializer, BadSignat
 from functools import wraps
 from time import time
 
-Authen = api.namespace('Authen', description='Authentication')
+Authen = api.namespace('auth', description='Authentication')
 UserDB = client.USER
 DataCollection = UserDB.data
 TokenCollection = UserDB.tokens

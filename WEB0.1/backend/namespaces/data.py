@@ -9,7 +9,7 @@ from ML.datavisualize import Create_Top3Sales, Create_Popular30
 UserDB = client.USER
 TokenCollection = UserDB.tokens
 FavoriteCollection = UserDB.preference
-Data = api.namespace('Data', description=' Data collection')
+Data = api.namespace('data', description=' Data collection')
 
 
 @Data.route('/topsales', strict_slashes=False)
