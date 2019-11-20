@@ -134,11 +134,63 @@ def somne_useful_list(dataframe, column_name):
     result.to_csv(f'{column_name}.csv', index = False, header=False)
     return result
 
+def sale_region(df_sale, df_region):
+    num_list = ['Critic_Score', 'User_Score', 'Year', 'Total_Shipped', 'Global_Sales', 'NA_Sales', 'PAL_Sales', 'JP_Sales', 'Other_Sales']
+    for each in num_list:
+        df_sale[each].fillna(0, inplace = True)
+    df_sale = df_sale[['NA_Sales', 'PAL_Sales', 'JP_Sales', 'Other_Sales']].sum()
+    '''
+    NA_Sales       3572.12    0
+    PAL_Sales      2047.76    1
+    JP_Sales        777.56    2
+    Other_Sales     694.13    3
+    '''
+    df_janpan = df_region[df_region.Country == 'Japan '][['Country', 'Region', 'Population']]
+    region = ['EUROPE', 'NORTHERN AMERICA']
+    df_region.replace({'EASTERN EUROPE                     ':'EUROPE'}, inplace = True)
+    df_region.replace({'WESTERN EUROPE                     ':'EUROPE'}, inplace = True)
+    df_region.replace({'NORTHERN AMERICA                   ':'NORTHERN AMERICA'}, inplace = True)
+    df_region = df_region[df_region['Region'].isin(region)][['Country', 'Region', 'Population']]
+    df_region = pd.concat([df_region, df_janpan])
+    region.append('ASIA (EX. NEAR EAST)         ')
+    person = df_region.groupby(['Region']).sum()
+    region_dict = {}
+    person_dict = {}
+    '''
+                               Population
+Region                                   
+ASIA (EX. NEAR EAST)            127463611
+EUROPE                          516254715
+NORTHERN AMERICA                331672307
+    '''
+
+    for each in region:
+        if each == 'EUROPE':
+            region_dict[each] = df_sale[1]
+            person_dict[each] = person['Population'][1]
+        elif each == 'NORTHERN AMERICA':
+            region_dict[each] = df_sale[0]
+            person_dict[each] = person['Population'][2]
+        else:
+            region_dict[each] = df_sale[2]
+            person_dict[each] = person['Population'][0]
+    df_region['region_sale'] = df_region.Region.apply(lambda x: region_dict[x])
+    df_region['region_population'] = df_region.Region.apply(lambda x: person_dict[x])
+    df_region['region_per_person'] = df_region['region_sale']/df_region['region_population'] * 1000000
+    df_region['country_sale'] = df_region['region_per_person'] * df_region['Population'] 
+    df_region.to_csv('sale_country.csv')
+    print(df_region)
+    return df_region
+
+
+
+
 if __name__ == '__main__':
     csv_file = r'\DataSet\vgsales-12-4-2019-short.csv'
     full_file = r'\DataSet\vgsales-12-4-2019.csv'
     pop_file = r'\DataSet\popular_games_output.csv'
     knn_file = r'\DataSet\KNN.csv'
+    region_file = r'\DataSet\countries of the world.csv'
     #df = read_csv(csv_file)
     df_full = read_csv(full_file)
     #pre_process_top(df_full, year = 2016)
@@ -153,9 +205,11 @@ if __name__ == '__main__':
 
     #df = pre_process_LR_sale(df)
     #df = pre_process_LR_count(df)
-    column_name = 'Genre'
-    somne_useful_list(df_full, column_name)
-    column_name = 'Platform'
-    somne_useful_list(df_full, column_name)
-    column_name = 'Publisher'
-    somne_useful_list(df_full, column_name)
+    # column_name = 'Genre'
+    # somne_useful_list(df_full, column_name)
+    # column_name = 'Platform'
+    # somne_useful_list(df_full, column_name)
+    # column_name = 'Publisher'
+    # somne_useful_list(df_full, column_name)
+    df_region = read_csv(region_file)
+    sale_region(df_full, df_region)
