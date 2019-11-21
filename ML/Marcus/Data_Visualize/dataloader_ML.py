@@ -157,12 +157,12 @@ def sale_region(df_sale, df_region):
     region_dict = {}
     person_dict = {}
     '''
-                               Population
-Region                                   
-ASIA (EX. NEAR EAST)            127463611
-EUROPE                          516254715
-NORTHERN AMERICA                331672307
-    '''
+                                   Population
+    Region                                   
+    ASIA (EX. NEAR EAST)            127463611
+    EUROPE                          516254715
+    NORTHERN AMERICA                331672307
+        '''
 
     for each in region:
         if each == 'EUROPE':

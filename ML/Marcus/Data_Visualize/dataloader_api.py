@@ -82,6 +82,21 @@ def top_10_count_genre(dataframe, year = None, platform = None): # top 9 genre +
     dataframe = pd.DataFrame(dataframe.groupby([dataframe.index])[col_name].sum())
     return dataframe
 
+def average_score(dataframe, genre, platform):
+    dataframe.dropna(subset=['Critic_Score'], inplace = True)
+    dataframe = dataframe[dataframe.Platform == platform]
+    dataframe = dataframe[dataframe.Genre == genre]
+    dataframe = dataframe[dataframe.Critic_Score > 0]
+    average_score = dataframe['Critic_Score'].mean()
+    return average_score
+
+def average_sale(dataframe, genre, platform):
+    dataframe.dropna(subset=['Global_Sales'], inplace = True)
+    dataframe = dataframe[dataframe.Platform == platform]
+    dataframe = dataframe[dataframe.Genre == genre]
+    dataframe = dataframe[dataframe.Global_Sales > 0]
+    average_sale = dataframe['Global_Sales'].mean()
+    return average_sale
 
 if __name__ == '__main__':
     full_file = r'\DataSet\vgsales-12-4-2019.csv'
@@ -115,4 +130,16 @@ if __name__ == '__main__':
     #can modify 2 parameter:platform, year
     #will show 'Genre', coutns
     test = top_10_count_genre(df_full, year = 2014, platform = 'PS4')
+    #print(test)
+
+    #fun5: display average score
+    #2 parameter: genre & platform
+    #will return a value
+    test = average_score(df_full, genre = 'Action', platform = 'PS3')
+    print(test)
+
+    #fun6: display average sale
+    #2 parameter: genre & platform
+    #will return a value
+    test = average_sale(df_full, genre = 'Action', platform = 'PC')
     #print(test)
