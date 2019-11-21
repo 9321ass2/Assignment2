@@ -29,6 +29,11 @@ def top_10_score_game(dataframe, genre=None, platform=None, year = 0):
     useless_list = ['Total_Shipped'] #useless columns, modify by yourself
     dataframe.drop(columns = useless_list, inplace = True)
     dataframe.sort_values(by = ['Critic_Score'], ascending  = False, inplace = True)
+    dataframe = dataframe[dataframe.Year > year]
+    if genre:
+        dataframe = dataframe[dataframe['Genre'].str.contains(genre)]
+    if platform:
+        dataframe = dataframe[dataframe['Platform'].str.contains(platform)]
     score = dataframe.head(10)[['Name', 'Platform', 'Critic_Score']]# modify it bt yourself
     return score
 
