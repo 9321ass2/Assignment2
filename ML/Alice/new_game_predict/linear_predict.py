@@ -1,8 +1,6 @@
 from sklearn import linear_model
 from sklearn.utils import shuffle
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
-from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 
 def deal_with_df(Genre = None,Platform = None,Publisher = None): # deal with the df,to get the new df suit the require
