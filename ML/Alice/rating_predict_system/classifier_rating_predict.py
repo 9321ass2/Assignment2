@@ -3,6 +3,7 @@ from sklearn.utils import shuffle
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
 
 
 def train_rating_model():
@@ -48,18 +49,20 @@ def train_rating_model():
     ESRB_model = MultinomialNB(alpha=1, class_prior=None, fit_prior=True)
     ESRB_model = ESRB_model.fit(ESRB_X_train, ESRB_y_train)
     pred_set = ESRB_model.predict(ESRB_X_test)
-    print(classification_report(ESRB_y_test, pred_set))
-    return words ,ESRB_model
+    accuracy = accuracy_score(ESRB_y_test, pred_set)
+    return words ,ESRB_model,accuracy
 
 def get_the_rating(pridict_array):
     dict = {1:'E',2:'E10',3:'M',4:'T',5:'EC',6:'KA',7:'AO',8:'RP'}
-    words, ESRB_model = train_rating_model()
+    words, ESRB_model , accuracy = train_rating_model()
     word_array = words.transform(pridict_array).toarray()
     key = ESRB_model.predict(word_array)
     key = key[0]
     rating = dict[key]
     print(rating)
-    return rating
+    accuracy = f'{accuracy:.3}'
+    print(accuracy)
+    return rating ,accuracy
 
 if __name__ == '__main__':
     #a example
