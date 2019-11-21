@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 
 
-# Input is a simple array with virable length.
+# Input is a simple array with variable length.
 # Array contains serval numbers refer to rank of games.
 def get_user_favorite():
-    uf = pd.read_csv('../DataSet/user_favorite.csv')
+    uf = [1, 9, 15, 3, 20, 283, 1617, 5, 20, 21]
     return uf
 
 
@@ -27,8 +27,8 @@ def get_ori_games():
 def get_user_game_details(user_df, all_data):
     ESRB_list = []
     platform_list = []
-    for i in user_df.itertuples():
-        game_info = all_data[all_data['Rank'] == i[1]]
+    for i in user_df:
+        game_info = all_data[all_data['Rank'] == i]
         ESRB_list.append(game_info['ESRB_Rating'].iloc[0])
         platform_list.append(game_info['Platform'].iloc[0])
         # print(game_info['Name'].iloc[0])
@@ -50,11 +50,10 @@ if __name__ == "__main__":
     ESRB_list, platform_list = get_user_game_details(usr_game, all_game)
     gram_matrix = get_gram_matrix()
     recommend_list = []
-    target_list = list(np.array(usr_game)[:,0])
+    target_list = usr_game
     tar_num = len(target_list)
-    for row in usr_game.itertuples():
-        rank = row[1]
-        matrix_column = rank - 1
+    for row in usr_game:
+        matrix_column = row - 1
         cur_game_score = gram_matrix.iloc[matrix_column]
         cur_game_score = cur_game_score.sort_values(ascending=False)
         cur_game_recommend = []
@@ -75,6 +74,7 @@ if __name__ == "__main__":
                 step+=1
                 if step>5:
                     break
+    # print(final_list)
     final_list = pd.DataFrame(final_list)
     final_list = final_list.sort_values(by=[1], ascending=False)
     # print(final_list)
@@ -82,6 +82,7 @@ if __name__ == "__main__":
     for row in final_list.itertuples():
         if (row[1] not in output) and (row[1] not in target_list):
             output.append(row[1])
+    # print(output)
     output_df = pd.DataFrame(output).rename(
         columns={0: 'Rank'}).sort_values(by=['Rank'])
     game_name_list = []
