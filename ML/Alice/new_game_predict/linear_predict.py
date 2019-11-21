@@ -56,11 +56,13 @@ def linear_machine_learning(df):
     pred_set = model_linear.predict(X_test)      
     score = r2_score(Y_test, pred_set)
     print(score)                                 #value the model
-    return model_linear
+    accuracy = f'{score:.3}'
+    return model_linear, accuracy
 
 
 
 if __name__ == '__main__':
     pd = deal_with_df(None , None , None)
-    model = linear_machine_learning(pd)
+    model ,accuracy = linear_machine_learning(pd)
     print(int(model.predict([[2020]])[0][0]))
+    print(accuracy)
