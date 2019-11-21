@@ -9,7 +9,7 @@ from flask import request
 from .authentication import requires_auth
 from ML.datavisualize import *
 
-games = api.namespace('games', description='User Information Services')
+games = api.namespace('games', description='Record of Games')
 
 
 class NpEncoder(json.JSONEncoder):
@@ -27,6 +27,8 @@ class NpEncoder(json.JSONEncoder):
 class GamesList(Resource):
     @games.response(200, 'Success')
     @games.doc(description=''' get the list of games in 2019 ''')
+    @games.expect(Format_Token)
+    @requires_auth
     def get(self):
         json_str = games_df.to_json(orient='index')
         ds = json.loads(json_str)
@@ -35,13 +37,13 @@ class GamesList(Resource):
             game = ds[idx]
             game['Identifier'] = int(idx)
             ret.append(game)
-        api_info['games']['get'] += 1
+        api_info['games']['2019'] += 1
         return ret
 
     @api.response(200, 'Game Created Successfully')
     @api.response(400, 'Validation Error')
     @api.doc(description="Add a new game with selling info")
-    @api.expect(Format_Games_model)
+    @api.expect(Format_Token,Format_Games_model)
     @requires_auth
     def post(self):
         game= request.json
@@ -57,7 +59,7 @@ class GamesList(Resource):
                 return {"message": "please dont input the game before 2016"}, 400
             games_df.loc[id, key] = game[key]
         games_df.append(game, ignore_index=True)
-        api_info['games']['post'] += 1
+        api_info['games']['2019'] += 1
         return {"message": "game {} is created".format(id)}, 201
 
 
@@ -67,6 +69,8 @@ class Games_2019(Resource):
     @games.response(200, 'Success')
     @games.response(404, 'Cannot be found')
     @games.doc(description=''' get the sale of individual game ''')
+    @games.expect(Format_Token)
+    @requires_auth
     def get(self,id):
         if id not in games_df.index:
             abort(404, "Games {} doesn't exist".format(id))
@@ -79,7 +83,7 @@ class Games_2019(Resource):
                     game[x] = float(game[x])
                 except:
                     pass
-        api_info['games']['get'] += 1
+        api_info['games']['2019'] += 1
         return game
 
     @games.response(200, 'Success')
@@ -100,7 +104,7 @@ class Games_2019(Resource):
                 return {"message": "please dont input the game before 2019" }, 400
             games_df.loc[id, key] = game[key]
         games_df.append(game, ignore_index=True)
-        api_info['games']['put'] += 1
+        api_info['games']['2019'] += 1
         return {"message": "Game {} has been successfully updated".format(id)}, 200
 
     @games.response(200, 'Success')
@@ -116,16 +120,18 @@ class Games_2019(Resource):
         if not isAdmin(token):
             abort(403, "Only Admin is permitted".format(id))
         games_df.drop(id,inplace=True)
-        api_info['games']['delete'] += 1
+        api_info['games']['2019'] += 1
         return {"message": "Game {} is removed.".format(id)}, 200
 
     @games.route('/populargames', strict_slashes=False)
     class Popular30(Resource):
         @games.response(200, 'Success')
         @games.doc(description="DataSet of 30 popular games on different platforms")
+        @games.expect(Format_Token)
+        @requires_auth
         def get(self):
             g30 = Create_Popular30()
-            api_info['games']['get'] += 1
+            api_info['games']['populargames'] += 1
             return g30
 
     @games.route('/topsales', strict_slashes=False)
@@ -133,7 +139,8 @@ class Games_2019(Resource):
         @games.response(200, 'Success')
         @games.doc(description="        By query with different combination(Genre,Platform,Region,Year),"
                                "Top Sales are provided by this service")
-        @api.expect(TopSale_parser)
+        @api.expect(Format_Token,TopSale_parser)
+        @requires_auth
         def get(self):
             args = TopSale_parser.parse_args()
             year = args.get('year')
@@ -158,37 +165,33 @@ class Games_2019(Resource):
             elif region not in Region_list:
                 abort(400, 'invalid input {}'.format(region))
             ret = top_sale_game(top=top, region=region, genre=genre, platform=platform, year=year)
-            api_info['games']['get'] += 1
+            api_info['games']['topsales'] += 1
             return ret
 
-        # @games.route('/topscores', strict_slashes=False)
-        # class Topscores(Resource):
-        #     @games.response(200, 'Success')
-        #     @games.doc(description="DataSet of 30 popular games on different platforms")
-        #     @api.expect(TopSale_parser)
-        #     def get(self):
-        #         args = Top10_parser.parse_args()
-        #         year = args.get('year')
-        #         top = args.get('top')
-        #         region = args.get('region')
-        #         genre = args.get('genre')
-        #         platform = args.get('platform')
-        #         if top is None:
-        #             top = 10
-        #         elif top < 1:
-        #             abort(400, 'invalid input {}'.format(top))
-        #         if year is None:
-        #             year = 0
-        #         elif year is not None and year < 1970:
-        #             abort(400, 'invalid input {}'.format(year))
-        #         if genre is not None and genre not in Genre_list:
-        #             abort(400, 'invalid input {}'.format(genre))
-        #         if platform is not None and platform not in Platform_list:
-        #             abort(400, 'invalid input {}'.format(platform))
-        #         if region is None:
-        #             region = 'Global_Sales'
-        #         elif region not in Region_list:
-        #             abort(400, 'invalid input {}'.format(region))
-        #         ret = top_sale_game(top=top, region=region, genre=genre, platform=platform, year=year)
-        #         api_info['games']['get'] += 1
-        #         return ret
+        @games.route('/topscores', strict_slashes=False)
+        class Topscores(Resource):
+            @games.response(200, 'Success')
+            @games.doc(description="By query with different combination(Genre,Platform,Region,Year),Top Scores are provided by this service")
+            @api.expect(Format_Token,TopScore_parser)
+            @requires_auth
+            def get(self):
+                args = TopScore_parser.parse_args()
+                year = args.get('year')
+                top = args.get('top')
+                genre = args.get('genre')
+                platform = args.get('platform')
+                if top is None:
+                    top = 10
+                elif top < 1:
+                    abort(400, 'invalid input {}'.format(top))
+                if year is None:
+                    year = 0
+                elif year is not None and year < 1970:
+                    abort(400, 'invalid input {}'.format(year))
+                if genre is not None and genre not in Genre_list:
+                    abort(400, 'invalid input {}'.format(genre))
+                if platform is not None and platform not in Platform_list:
+                    abort(400, 'invalid input {}'.format(platform))
+                ret = top_sale_game(top=top, genre=genre, platform=platform, year=year)
+                api_info['games']['topscores'] += 1
+                return ret

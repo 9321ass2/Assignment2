@@ -10,7 +10,7 @@ UserDB = client.USER
 UserCollection = UserDB.data
 TokenCollection = UserDB.tokens
 FavoriteCollection = UserDB.preference
-user_route = api.namespace('users', description='User Information Services')
+user_route = api.namespace('users', description='User information')
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -33,7 +33,7 @@ class UsersList(Resource):
                 js = JSONEncoder().encode(doc)
                 js  = js.replace("\"",'')
                 ret.append(js)
-            api_info['users']['get'] += 1
+            api_info['users'] += 1
             return ret
     @user_route.response(200, 'Success')
     @user_route.response(400, 'Wrong Format')
@@ -56,7 +56,7 @@ class UsersList(Resource):
         UserCollection.insert_one(request.json)
         instance = {'username': user, 'token': ''}
         TokenCollection.insert_one(instance)
-        api_info['users']['post'] += 1
+        api_info['users'] += 1
         return {"Message": "User {} has been successfully created".format(user)}, 200
 
 @user_route.route('/<string:username>', strict_slashes=False)
@@ -71,7 +71,7 @@ class User(Resource):
         query = UserCollection.find_one({'username':username},{'_id':0,'username':1,'email':1})
         if query is None:
             abort(404, "User {} doesn't exist".format(username))
-        api_info['users']['get'] += 1
+        api_info['users']+= 1
         return query
 
     @user_route.response(200, 'Success')
@@ -87,7 +87,7 @@ class User(Resource):
             abort(403, 'Token:User unmatched')
         email = request.json['email']
         UserCollection.update_one({'username': username}, {"$set": {"email": email}})
-        api_info['users']['put'] += 1
+        api_info['users'] += 1
         return {"Message": "User {} has been successfully updated".format(username)}, 200
 
     @user_route.response(200, 'Success')
@@ -108,7 +108,7 @@ class User(Resource):
         UserCollection.delete_one({'username':username})
         TokenCollection.delete_one({'username':username})
         FavoriteCollection.delete_one({'username':username})
-        api_info['users']['delete'] += 1
+        api_info['users'] += 1
         return {"Message": "User {} has been deleted".format(username)}, 200
 
 

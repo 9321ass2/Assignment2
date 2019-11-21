@@ -10,7 +10,7 @@ UserDB = client.USER
 UserCollection = UserDB.data
 TokenCollection = UserDB.tokens
 FavoriteCollection = UserDB.preference
-apiusg_route = api.namespace('apiusages', description='User Information Services')
+apiusg_route = api.namespace('apiusages', description='Usage Record Services')
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -22,7 +22,7 @@ class JSONEncoder(json.JSONEncoder):
 @apiusg_route.route('', strict_slashes=False)
 class UsageList(Resource):
     @apiusg_route.response(200, 'Success')
-    @apiusg_route.doc(description=''' List of Users with email ''')
+    @apiusg_route.doc(description=''' List of usage of each service ''')
     @api.expect(Format_Token)
     @requires_auth
     def get(self):
@@ -32,7 +32,7 @@ class UsageList(Resource):
 @apiusg_route.param('service', 'name_of_services')
 class Usage(Resource):
     @apiusg_route.response(200, 'Success')
-    @apiusg_route.doc(description=''' List of Users with email ''')
+    @apiusg_route.doc(description=''' individual usage of each service ''')
     @api.expect(Format_Token)
     @requires_auth
     def get(self,service):

@@ -22,19 +22,23 @@ api = Api(app, authorizations={
           title="Restful API for Game Recommendation and Prediction",  # Documentation Title
           description="Connect to Atlas MongoDB ")  # Documentation Description
 
-api_info = {'Date' : str(datetime.datetime.now()), 'users' : {"get":0, "post":0, "put":0, "delete":0},
-                'games' : {"get":0, "post":0, "put":0, "delete":0} ,
-                'countries' : {"get":0, "post":0, "put":0, "delete":0},
-                'recommends' : {"get":0, "post":0, "put":0, "delete":0}}
+api_info = {'Date' : str(datetime.datetime.now()), 'users' : 0,
+                'games' : {"2019":0, "populargames":0, "topsales":0, "topscores":0} ,
+                'countries' : 0,
+                'recommends' : 0,
+                'predict': {'esrb':0,'linear':0}
+                }
 
 
 
 def DataToday():
     global api_info
-    api_info = {'Date' : str(datetime.datetime.now()), 'users' : {"get":0, "post":0, "put":0, "delete":0},
-                'games' : {"get":0, "post":0, "put":0, "delete":0} ,
-                'countries' : {"get":0, "post":0, "put":0, "delete":0},
-                'recommends' : {"get":0, "post":0, "put":0, "delete":0}}
+    api_info = {'Date' : str(datetime.datetime.now()), 'users' : 0,
+                'games' : {"2019":0, "populargames":0, "topsales":0, "topscores":0} ,
+                'countries' : 0,
+                'recommends' : 0,
+                'predict': {'esrb':0,'linear':0}
+                }
 
     threading.Timer(86400, DataToday).start()
 

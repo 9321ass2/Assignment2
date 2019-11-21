@@ -6,12 +6,14 @@ from flask_restplus import Resource, abort
 from flask import request
 from .authentication import requires_auth
 
-Countries_route = api.namespace('countries', description='countries sale')
+Countries_route = api.namespace('countries', description='Records of Countries sales')
 
 @Countries_route.route('', strict_slashes=False)
 class CountriesList(Resource):
     @Countries_route.response(200, 'Success')
     @Countries_route.doc(description=''' get the game sale list in each country ''')
+    @api.expect(Format_Token)
+    @requires_auth
     def get(self):
         json_str = country_df.to_json(orient='index')
         ds = json.loads(json_str)
@@ -20,13 +22,13 @@ class CountriesList(Resource):
             country = ds[idx]
             country['Identifier'] = int(idx)
             ret.append(country)
-        api_info['countries']['get'] += 1
+        api_info['countries'] += 1
         return ret
 
     @Countries_route.response(200, 'Country Created Successfully')
     @Countries_route.response(400, 'Validation Error')
     @Countries_route.doc(description="Add a new country")
-    @api.expect(Format_Countries_model)
+    @api.expect(Format_Token,Format_Countries_model)
     @requires_auth
     def post(self):
         country= request.json
@@ -40,7 +42,7 @@ class CountriesList(Resource):
                 return {"message": "Property {} is invalid".format(key)}, 400
             country_df.loc[id, key] = country[key]
         country_df.append(country, ignore_index=True)
-        api_info['countries']['post'] += 1
+        api_info['countries'] += 1
         return {"message": "country {} is created".format(id)}, 201
 
 
@@ -50,6 +52,8 @@ class Countries(Resource):
     @Countries_route.response(200, 'Success')
     @Countries_route.response(404, 'Not Found')
     @Countries_route.doc(description=''' get the game sale info in specific country ''')
+    @api.expect(Format_Token)
+    @requires_auth
     def get(self, id):
         if id not in country_df.index:
             abort(404, "Country {} isn't recorded".format(id))
@@ -62,7 +66,7 @@ class Countries(Resource):
                     country[x] = float(country[x])
                 except:
                     pass
-        api_info['countries']['get'] += 1
+        api_info['countries'] += 1
         return country
 
     @Countries_route.response(200, 'Success')
@@ -82,7 +86,7 @@ class Countries(Resource):
                 return {"message": "Property {} is invalid".format(key)}, 400
             country_df.loc[id, key] = country[key]
         country_df.append(country, ignore_index=True)
-        api_info['countries']['put'] += 1
+        api_info['countries'] += 1
         return {"message": "Country {} has been successfully updated".format(id)}, 200
 
     @Countries_route.response(200, 'Success')
@@ -98,5 +102,5 @@ class Countries(Resource):
         if id not in country_df.index:
             abort(404, "Country {} isn't recorded".format(id))
         country_df.drop(id,inplace=True)
-        api_info['countries']['delete'] += 1
+        api_info['countries'] += 1
         return {"message": "Country {} is removed.".format(id)}, 200

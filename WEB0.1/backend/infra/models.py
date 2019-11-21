@@ -2,12 +2,12 @@ from restapi import api
 from flask_restplus import fields,reqparse
 
 
-Format_Recommend_PUT = api.model('Format_Recommend', {
-  'preference': fields.List(fields.String),
+Format_Recommend_PUT = api.model('Format_Recommend_PUT', {
+  'preference': fields.List(fields.String,description='use Rank'),
 })
-Format_Recommend_POST = api.model('Format_Recommend', {
+Format_Recommend_POST = api.model('Format_Recommend_POST', {
   'username':fields.String(required=True),
-  'preference': fields.List(fields.String)
+  'preference': fields.List(fields.String,description='use Rank')
 })
 Format_User_PUT = api.model('Format_User_PUT', {
   'email': fields.String(required=True),
@@ -83,3 +83,18 @@ TopSale_parser.add_argument('region', help=region_text)
 TopSale_parser.add_argument('year', help='    after 1970 ~    ',type=int)
 TopSale_parser.add_argument('platform',help=platform_text)
 TopSale_parser.add_argument('genre',help=genre_text)
+
+
+TopScore_parser = reqparse.RequestParser()
+TopScore_parser.add_argument('top', help='     top(?)  ,top10 if empty',type=int)
+TopScore_parser.add_argument('year', help='    after 1970 ~    ',type=int)
+TopScore_parser.add_argument('platform',help=platform_text)
+TopScore_parser.add_argument('genre',help=genre_text)
+
+LinearP_parser = reqparse.RequestParser()
+LinearP_parser.add_argument('year', help='    after 2019    ',type=int)
+LinearP_parser.add_argument('platform',help=platform_text)
+LinearP_parser.add_argument('genre',help=genre_text)
+
+ESRB_parser = reqparse.RequestParser()
+ESRB_parser.add_argument('game_information')
