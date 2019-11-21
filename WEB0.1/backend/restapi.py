@@ -22,12 +22,20 @@ api = Api(app, authorizations={
           title="Restful API for Game Recommendation and Prediction",  # Documentation Title
           description="Connect to Atlas MongoDB ")  # Documentation Description
 
-api_info = {'Date' : str(datetime.datetime.now()),'Recommendation' : 0, 'Prediction' : 0 ,'Data' : 0}
+api_info = {'Date' : str(datetime.datetime.now()), 'users' : {"get":0, "post":0, "put":0, "delete":0},
+                'games' : {"get":0, "post":0, "put":0, "delete":0} ,
+                'countries' : {"get":0, "post":0, "put":0, "delete":0},
+                'recommends' : {"get":0, "post":0, "put":0, "delete":0}}
+
 
 
 def DataToday():
     global api_info
-    api_info = {'Date' : str(datetime.datetime.now()), 'Recommendation' : 0, 'Prediction' : 0 ,'Data' : 0}
+    api_info = {'Date' : str(datetime.datetime.now()), 'users' : {"get":0, "post":0, "put":0, "delete":0},
+                'games' : {"get":0, "post":0, "put":0, "delete":0} ,
+                'countries' : {"get":0, "post":0, "put":0, "delete":0},
+                'recommends' : {"get":0, "post":0, "put":0, "delete":0}}
+
     threading.Timer(86400, DataToday).start()
 
 

@@ -61,30 +61,6 @@ def requires_auth(f):
 
     return decorated
 
-@Authen.route('/register', strict_slashes=False)
-class Register(Resource):
-    @Authen.response(200, 'Success')
-    @Authen.response(400, 'Wrong Format')
-    @Authen.response(403, 'Duplicate Username')
-    @api.expect(Format_Register)
-    @Authen.doc(description='''
-           Signup to get the membership
-        ''')
-    def post(self):
-        if not request.json:
-            abort(400, 'Wrong Format')
-        user = str(request.json['username'])
-        pwd = str(request.json['password'])
-        if user == '' or pwd == '':
-            abort(400, 'Wrong Format')
-        query = DataCollection.find_one({"username": user})
-        if query is not None:
-            abort(403, 'Duplicate Username')
-        DataCollection.insert_one(request.json)
-        instance = {'username': user, 'token': ''}
-        TokenCollection.insert_one(instance)
-        return {"Status": "Success"}, 200
-
 
 @Authen.route('/token')
 class Token(Resource):

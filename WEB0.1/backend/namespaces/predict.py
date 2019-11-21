@@ -10,7 +10,7 @@ FavoriteCollection = UserDB.preference
 predict = api.namespace('predict', description='predict Services')
 
 
-@predict.route('/Linear', strict_slashes=False)
+@predict.route('/linear', strict_slashes=False)
 class Prediction(Resource):
     @predict.response(200, 'Success')
     @predict.response(403, 'duplicate document')

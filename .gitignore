@@ -5,3 +5,5 @@ __pycache__/
 WEB0.1/backend/env
 .DS_Store
 *.pyc
+*.pyc
+*.pyc
