@@ -63,4 +63,4 @@ def linear_machine_learning(df):
 if __name__ == '__main__':
     pd = deal_with_df(None , None , None)
     model = linear_machine_learning(pd)
-    print(model.predict([[2020]]))
+    print(int(model.predict([[2020]])[0][0]))
