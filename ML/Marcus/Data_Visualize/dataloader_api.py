@@ -136,7 +136,7 @@ if __name__ == '__main__':
     #2 parameter: genre & platform
     #will return a value
     test = average_score(df_full, genre = 'Action', platform = 'PS3')
-    print(test)
+    #print(test)
 
     #fun6: display average sale
     #2 parameter: genre & platform
