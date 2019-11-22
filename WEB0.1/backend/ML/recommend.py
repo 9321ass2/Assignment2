@@ -4,8 +4,7 @@ import pandas as pd
 
 # Input is a simple array with virable length.
 # Array contains serval numbers refer to rank of games.
-def get_user_favorite(plist):
-    uf = pd.DataFrame(data=plist,)
+def get_user_favorite(uf):
     return uf
 def get_all_games():
     ag = pd.read_csv('./ML/DataSet/KNN.csv')
@@ -19,17 +18,17 @@ def get_ori_games():
 def get_user_game_details(user_df, all_data):
     ESRB_list = []
     platform_list = []
-    for i in user_df.itertuples():
-        game_info = all_data[all_data['Rank'] == i[1]]
+    for i in user_df:
+        game_info = all_data[all_data['Rank'] == i]
         ESRB_list.append(game_info['ESRB_Rating'].iloc[0])
         platform_list.append(game_info['Platform'].iloc[0])
-        # print(game_info['Name'].iloc[0])
     ESRB_list = list(set(ESRB_list))
     platform_list = list(set(platform_list))
     return ESRB_list, platform_list
 def get_gram_matrix():
     df = pd.read_csv('./ML/DataSet/relevance_matrix.csv')
     return df
+
 def Recommend_Game(plist):
     usr_game = get_user_favorite(plist)
     all_game = get_all_games()
@@ -38,11 +37,10 @@ def Recommend_Game(plist):
     ESRB_list, platform_list = get_user_game_details(usr_game, all_game)
     gram_matrix = get_gram_matrix()
     recommend_list = []
-    target_list = list(np.array(usr_game)[:,0])
+    target_list = usr_game
     tar_num = len(target_list)
-    for row in usr_game.itertuples():
-        rank = row[1]
-        matrix_column = rank - 1
+    for row in usr_game:
+        matrix_column = row - 1
         cur_game_score = gram_matrix.iloc[matrix_column]
         cur_game_score = cur_game_score.sort_values(ascending=False)
         cur_game_recommend = []
@@ -59,10 +57,11 @@ def Recommend_Game(plist):
         step = 0
         for j in i:
             if j[1] != 1:
-                final_list.append((int(j[0])+1, j[1]))
-                step+=1
-                if step>5:
+                final_list.append((int(j[0]) + 1, j[1]))
+                step += 1
+                if step > 5:
                     break
+    # print(final_list)
     final_list = pd.DataFrame(final_list)
     final_list = final_list.sort_values(by=[1], ascending=False)
     # print(final_list)
@@ -70,6 +69,7 @@ def Recommend_Game(plist):
     for row in final_list.itertuples():
         if (row[1] not in output) and (row[1] not in target_list):
             output.append(row[1])
+    # print(output)
     output_df = pd.DataFrame(output).rename(
         columns={0: 'Rank'}).sort_values(by=['Rank'])
     game_name_list = []

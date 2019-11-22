@@ -95,34 +95,33 @@ function userpage(api){
         let details = {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'Content-Type':'application/json',
                     'AUTH-TOKEN':localStorage.getItem('current_token')
                 },
                 body: JSON.stringify({"username": localStorage.getItem('current_username'), "preference": preference})
         }
-        const getPro3 = fetch(api + "/USER/Recommend", details);
-        let token = getPro3.then(response => response.json());
-        token.then(data => {
-                console.log(data);
-                if (data.hasOwnProperty("status")) {               
-                    console.log("preference success");
-                    let details2 = {
-                        method: 'GET',
-                        headers:{
-                            'Content-Type': 'application/json',
-                            'AUTH-TOKEN':localStorage.getItem('current_token')
-                        }
-                    }
-                    const getPro4 = fetch(api + "/USER/Recommend", details2);
-                    let tokenx = getPro4.then(response=>response.json());
-                    tokenx.then(data2=>{
-                        console.log(data2);
-                        if(data2.hasOwnProperty('games')){
-                            let game_recommendation = document.getElementById('game_recommendation');
-                            //let p_content= document.createElement("p");
-                            //p_content.textContent=data2.games;
+        const getPro3 = fetch(api + "/recommends", details);
 
-                            for(let item of data2.games){
+        let token = getPro3.then(response => {
+            if(response.status === 200) {
+                console.log("choose success")
+                let details2={
+                    method: 'GET',
+                    headers:{
+                        'accept': 'application/json',
+                        'Content-Type':'application/json',
+                        'AUTH-TOKEN':localStorage.getItem('current_token')
+                    }
+                }
+                const getPro4 = fetch(api+"/recommends/"+localStorage.getItem('current_username'),details2);
+                getPro4.then(response=>{
+                    if(response.status===200){
+                        let token = response.json();
+                        token.then(data=>{
+                            console.log(data)
+                            let game_recommendation = document.getElementById('game_recommendation');
+                            for(let item of data.recommendation){
                                 let button_g = document.createElement("button");
                                 button_g.textContent=item;
                                 console.log(item);
@@ -133,18 +132,39 @@ function userpage(api){
                                 game_recommendation.appendChild(button_g);
 
                             }
-                            //game_recommendation.appendChild(p_content);
-                        }
+                            likeguess.style.display="block";
+                        })
+                    }
+                })
 
-                    })
+            }else if(response.status === 400){
+                alert("You should choose more than 3 games")
 
-                } else {
-                    alert("wrong!");
-                    console.log("preference filed");
+            }else if(response.status === 403){
+                let detailsx = {
+                    method: 'PUT',
+                    headers: {
+                        'accept': 'application/json',
+                        'Content-Type':'application/json',
+                        'AUTH-TOKEN':localStorage.getItem('current_token')
+                    },
+                    body: JSON.stringify({"preference": preference})
                 }
+                const getProx = fetch(api + "/recommends/"+localStorage.getItem('current_username'), detailsx);
+                getProx.then(response=>{
+                    if(response.status === 200){
+                        console.log("update success")
+                    }else if(response.status === 400){
+                        alert("You should choose more than 3 games")
+                    }else{
+                        alert("input wrong")
+                    }
+                })
+            }else{
+                alert("input wrong")
             }
-        )
-        likeguess.style.display="block";
+        });
+
     }
 }
 export default userpage;

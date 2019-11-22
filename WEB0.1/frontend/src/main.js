@@ -6,6 +6,7 @@
 
 import login from './login.js';
 import userpage from "./userpage.js"
+import developerpage from "./gamedeveloperpage.js"
 // your app must take an apiUrl as an argument --
 // this will allow us to verify your apps behaviour with 
 // different datasets.
@@ -15,7 +16,7 @@ function initApp(apiUrl) {
   	let thead = document.getElementById("thead");
   	
 	let th1 = document.createElement("th");
-  	th1.textContent="# ";
+  	th1.textContent="🔥";
   	thead.appendChild(th1);
 
   	let th2 = document.createElement("td");
@@ -42,36 +43,53 @@ function initApp(apiUrl) {
   	let details = {
 				method: 'GET',
 				headers: {
-					'Content-Type': 'application/json'
+					'accept': 'application/json'
 				}
 	}
-	let getPro = fetch(api + "/Data/topsales", details);
-	let token = getPro.then(response => response.json());
-	let i=1;
+	//getPro.then(res => {res.json()})
+	//getPro.then(res => {res.json()})
+	let getPro = fetch(api + "/games/topsales", details);
+	getPro.then(response => {
+		if (response.status === 200) {
+			let token = response.json();
+			//console.log(token)
+			let i = 1;
+			token.then(data => {
+				//console.log(data)
+				for (let element of data) {
+					//console.log(element)
+					let row = document.getElementById("row" + i);
 
-	token.then(data => {
-		console.log(":2")
-		for(let element of data.top3){
+					let th = document.createElement("th");
+					th.textContent = i;
+					row.appendChild(th);
 
-			let row = document.getElementById("row"+i);
-			
-			let th = document.createElement("th");
-			th.textContent=i;
-			row.appendChild(th);
-			console.log(row)
-			for(let item of element){
-				let td = document.createElement("td");
-				td.textContent=item;
-				console.log(td)
-				row.appendChild(td);
+					for (let item in element) {
+						if (item === "Identifier") {
+							break;
+						}
+						let td = document.createElement("td");
+						td.textContent = element[item];
+						// console.log(td)
+						row.appendChild(td);
 
-			}
-			i++;
+					}
+					i++;
+				}
+			})
 		}
 	})
 
+	// let token = getPro.then(response => {
+	// 	response.json()
+	// });
+	
+
+	
+
     login(api)
     userpage(api)
+	developerpage(api)
 
 }
 

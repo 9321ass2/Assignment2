@@ -7,8 +7,8 @@ function login(api){
 	let login_page=document.getElementById("login-page")
 	let user_page=document.getElementById("user-page")
 	let gamer_photo=document.getElementById("gamer_photo")
-    let user="";
-    let current_token="";
+
+
 
 //login&signup -page
 	let container = document.createElement('DIV');
@@ -108,25 +108,27 @@ function login(api){
 			const details = {
 				method: 'POST',
 				headers: {
+					'accept': 'application/json',
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({"username": username, "password": password, "email": "COMP9321@unsw.com", "role": 1})
+				body: JSON.stringify({"username": username, "password": password, "email": "COMP9321@unsw.com"})
 			}
-			const getPro1 = fetch(api + "/Authen/register", details);
-			let token = getPro1.then(response => response.json());
-			token.then(data => {
-					console.log(data);
-					if (data.hasOwnProperty("Status")) {
+			const getPro1 = fetch(api + "/users", details);
+			getPro1.then(response=>{
+				if (response.status === 200) {
+					let token = response.json();
+					token.then(data => {
 						alert("signup Success!");
 						console.log("signup success");
 						login_button.click();
-
-					} else {
-						alert("Input message is wrong!");
-						console.log("signup filed");
-					}
+					})
+				}else {
+					alert("Input message is wrong!");
+					console.log("signup filed");
 				}
-			)
+			})
+			//let token = getPro1.then(response => response.json());
+
 		}
 	}
 //signup page
@@ -154,17 +156,16 @@ function login(api){
 					'password': password
 				}
 			}
-			const getPro2 = fetch(api + "/Authen/token", details);
-			let token = getPro2.then(response => response.json());
-			token.then(data => {
-					console.log(data);
-					if (data.hasOwnProperty("token")) {
-                        user=username;
-                        current_token=data.token;
-                        localStorage.setItem('current_username',username);
-                        localStorage.setItem('current_token',current_token);
-						console.log(localStorage.getItem('current_username'));
-    					console.log(localStorage.getItem('current_token'));
+			const getPro2 = fetch(api + "/auth/token", details);
+			getPro2.then(response =>{
+				if(response.status === 200){
+					let token = response.json()
+					token.then(data => {
+
+						localStorage.setItem('current_username',username);
+						localStorage.setItem('current_token',data.token);
+						//console.log(localStorage.getItem('current_username'));
+						//console.log(localStorage.getItem('current_token'));
 						alert("Success!");
 						console.log("Login success");
 						login_page.style.display="none"
@@ -173,12 +174,14 @@ function login(api){
 						signup_button.style.display="none"
 						gamer_photo.style.display="block"
 
-					} else {
-						alert("Input message is wrong!");
-						console.log("LOGIN filed");
-					}
+					})
+				}else{
+					alert("Input message is wrong!");
+					console.log("LOGIN filed");
 				}
-			)
+			})
+
+
 		}
 	}
 	//arr=[user,current_token]

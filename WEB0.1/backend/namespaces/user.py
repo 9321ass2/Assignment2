@@ -1,79 +1,123 @@
 from infra.function import *
 from infra.models import *
 from restapi import api, client,api_info
-from flask_restplus import Resource, abort, reqparse, fields
+from flask_restplus import Resource, abort
 from flask import request
-from ML.recommend import Recommend_Game
 from .authentication import requires_auth
+from bson import ObjectId
+import json
 UserDB = client.USER
+UserCollection = UserDB.data
 TokenCollection = UserDB.tokens
 FavoriteCollection = UserDB.preference
-user = api.namespace('USER', description='User Information Services')
+user_route = api.namespace('users', description='User information')
 
-@user.route('/Recommend', strict_slashes=False)
-class Recommend(Resource):
-    @user.response(200, 'Success')
-    @user.response(403, 'User not in TokenCollect')
-    @user.response(400, 'Wrong Format')
-    @user.response(406, 'User not in PrefCollect')
-    @user.doc(description=''' Get : retrieve the preference from DB then return the recommendation list ''')
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
+
+@user_route.route('', strict_slashes=False)
+class UsersList(Resource):
+    @user_route.response(200, 'Success')
+    @user_route.doc(description=''' List of Users with email ''')
     @api.expect(Format_Token)
     @requires_auth
     def get(self):
-        api_info['Recommendation'] += 1
-        token = request.headers['Auth-Token']
-        Query_token = TokenCollection.find_one({'token':token},{'username': 1})
-        if Query_token is None:
-            abort(403,'User not in TokenCollect')
-        username = Query_token['username']
-        Query_Pref = FavoriteCollection.find_one({'username':username},{'preference':1})
-        if Query_Pref is None:
-            abort(406,'User not in PrefCollect')
-        PreferenceList = [int(element) for element in Query_Pref['preference']]
-        print(PreferenceList)
-        gamelist = Recommend_Game(PreferenceList)
-        return {"games": gamelist},200
 
-    @user.response(200, 'Success')
-    @user.response(403, 'User not in PrefCollect')
-    @user.response(400, 'Wrong Format')
-    @user.response(406, 'Token:User unmatched')
-    @user.doc(description='''  PUT : update the client's preference to DB ''')
-    @api.expect(Format_Token,Format_Recommend)
-    @requires_auth
-    def put(self):
-        if not request.json:
-            abort(400, 'Wrong Format')
-        token = request.headers['Auth-Token']
-        username = request.json['username']
-        if not User_Token(username,token):
-            abort(406, 'Token:User unmatched')
-        preferencelist = request.json['preference']
-        query = FavoriteCollection.find_one({"username": username})
-        if query is None:
-            abort(403, 'User not in PrefCollect')
-        FavoriteCollection.update_one({'username': username},{"$set": {"preference": preferencelist}})
-        return{'status': 'ok'}, 200
-
-    @user.response(200, 'Success')
-    @user.response(403, 'duplicate document')
-    @user.response(400, 'Wrong Format')
-    @user.response(406, 'Token:User unmatched')
-    @user.doc(description=''' POST : submit the client's preference to DB''')
-    @api.expect(Format_Token, Format_Recommend)
-    @requires_auth
+            ans = UserCollection.find({},{'username':1,'email':1,'_id': 0})
+            ret = []
+            for doc in ans:
+                js = JSONEncoder().encode(doc)
+                js  = js.replace("\"",'')
+                ret.append(js)
+            api_info['users'] += 1
+            return ret
+    @user_route.response(200, 'Success')
+    @user_route.response(400, 'Wrong Format')
+    @user_route.response(403, 'Duplicate Username')
+    @api.expect(Format_Register)
+    @user_route.doc(description='''
+           Signup to get the membership
+        ''')
     def post(self):
+
         if not request.json:
             abort(400, 'Wrong Format')
-        token = request.headers['Auth-Token']
-        username = request.json['username']
-        preferencelist = request.json['preference']
-        if not User_Token(username,token):
-            abort(406, 'Token:User unmatched')
-        query = FavoriteCollection.find_one({"username": username})
+        user = str(request.json['username'])
+        pwd = str(request.json['password'])
+        if user == '' or pwd == '':
+            abort(400, 'Wrong Format')
+        query = UserCollection.find_one({"username": user})
         if query is not None:
-            abort(403, 'duplicate document')
-        FavoriteCollection.insert_one({'username':username,'preference': preferencelist})
-        return {'status': 'ok'}, 200
+            abort(403, 'Duplicate Username {}'.format(user))
+        UserCollection.insert_one(request.json)
+        instance = {'username': user, 'token': ''}
+        TokenCollection.insert_one(instance)
+        api_info['users'] += 1
+        return {"Message": "User {} has been successfully created".format(user)}, 200
+
+@user_route.route('/<string:username>', strict_slashes=False)
+@user_route.param('username', 'name_of_user')
+
+class User(Resource):
+    @user_route.response(200, 'Success')
+    @user_route.doc(description=''' get basic info of specific user''')
+    @api.expect(Format_Token)
+    @requires_auth
+    def get(self, username):
+        query = UserCollection.find_one({'username':username},{'_id':0,'username':1,'email':1})
+        if query is None:
+            abort(404, "User {} doesn't exist".format(username))
+        api_info['users']+= 1
+        return query
+
+    @user_route.response(200, 'Success')
+    @user_route.doc(description=''' update the info of user  only user himself or admin is permitted''')
+    @api.expect(Format_Token,Format_User_PUT)
+    @requires_auth
+    def put(self, username):
+        query = UserCollection.find_one({'username': username})
+        if query is None:
+            abort(404, "User {} doesn't exist".format(username))
+        token = request.headers['Auth-Token']
+        if not User_Token(username, token) and not isAdmin(token):
+            abort(403, 'Token:User unmatched')
+        email = request.json['email']
+        UserCollection.update_one({'username': username}, {"$set": {"email": email}})
+        api_info['users'] += 1
+        return {"Message": "User {} has been successfully updated".format(username)}, 200
+
+    @user_route.response(200, 'Success')
+    @user_route.response(404, 'Not Found')
+    @user_route.response(403, 'Forbidden')
+    @user_route.doc(description=''' delete user from entire system only admin is permitted''')
+    @api.expect(Format_Token)
+    @requires_auth
+    def delete(self, username):
+        if username == 'admin':
+            abort(403, 'Admin cant be deleted')
+        query = UserCollection.find_one({'username': username})
+        if query is None:
+            abort(404, "User {} doesn't exist".format(username))
+        token = request.headers['Auth-Token']
+        if not isAdmin(token):
+            abort(403, 'Only Admin can delete resources')
+        UserCollection.delete_one({'username':username})
+        TokenCollection.delete_one({'username':username})
+        FavoriteCollection.delete_one({'username':username})
+        api_info['users'] += 1
+        return {"Message": "User {} has been deleted".format(username)}, 200
+
+
+
+
+
+
+
+
+
 
 

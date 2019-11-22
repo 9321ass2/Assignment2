@@ -157,4 +157,52 @@
     background-color: #2A3F54;
     color:#fff;
 }
+.predict_1{
+    float:left;
+    width:100%;
+    background-color:rgba(255,192,204,0.8);
+    padding-top: 30px;
+    padding-bottom: 15px;
 
+}
+.predict_2{
+    float:left;
+    width:100%;
+    background-color:rgba(47,79,79,0.8);
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
+.predict_3{
+    float:left;
+    width:100%;
+    background-color:rgba(253,219,7,0.8);
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
+.game_3{
+    float:left;
+    width:100%;
+    background-color:rgba(63,189,219,0.8);
+    padding-top: 20px;
+    padding-bottom: 15px;
+    padding-left:15px;
+    padding-right:15px;
+}
+.sel{
+    height:43px;
+    width:200px;
+    margin:10px 10px 10px 10px;
+
+
+}
+.ip{
+    height:43px;
+    width:200px;
+    margin:20px 20px 20px 20px;
+}
+.ss{
+    color:#EBF4F3;
+    margin:20px 20px 20px 20px;
+    font-size:14px;
+
+}
