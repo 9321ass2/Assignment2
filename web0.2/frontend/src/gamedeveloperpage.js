@@ -78,15 +78,15 @@ function developerpage(api) {
                 'AUTH-TOKEN':localStorage.getItem('current_token')
             }
         }
-        const getPro = fetch(api+"/predict/linear?year="+selction3.value+"&platform="+selction6.value+"&genre="+selction7.value,details);
+        const getPro = fetch(api+"/predict/linear?year="+selction3.value+"&platform="+selction1.value+"&genre="+selction2.value,details);
         getPro.then(response=>{
             if(response.status===200) {
                 let p=response.json()
                 p.then(data=>{
-                    for(let i of data){
-                        let text=document.getElementById("ss3")
-                        text.textContent=" GAME :"+i.Name
-                    }
+                    // for(let i of data){
+                    let text=document.getElementById("ss1")
+                    text.textContent=" GAME AMOUNT :"+data.prediction_amount_of_games
+                    // }
 
 
                 })

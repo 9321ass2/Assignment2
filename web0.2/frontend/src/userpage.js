@@ -154,6 +154,36 @@ function userpage(api){
                 getProx.then(response=>{
                     if(response.status === 200){
                         console.log("update success")
+                        let details_={
+                            method: 'GET',
+                            headers:{
+                                'accept': 'application/json',
+                                'Content-Type':'application/json',
+                                'AUTH-TOKEN':localStorage.getItem('current_token')
+                            }
+                        }
+                        const getPro_ = fetch(api+"/recommends/"+localStorage.getItem('current_username'),details_);
+                        getPro_.then(response=> {
+                            if (response.status === 200) {
+                                let token = response.json();
+                                token.then(data => {
+                                    console.log(data)
+                                    let game_recommendation = document.getElementById('game_recommendation');
+                                    for (let item of data.recommendation) {
+                                        let button_g = document.createElement("button");
+                                        button_g.textContent = item;
+                                        console.log(item);
+                                        button_g.classList.add('btn_label2');
+                                        button_g.style.setProperty('background-color', '#70D6DB');
+                                        button_g.style.setProperty('color', 'black');
+                                        button_g.style.setProperty('border-color', '#FCC11D');
+                                        game_recommendation.appendChild(button_g);
+
+                                    }
+                                    likeguess.style.display = "block";
+                                })
+                            }
+                        })
                     }else if(response.status === 400){
                         alert("You should choose more than 3 games")
                     }else{
