@@ -139,7 +139,7 @@ class Games_2019(Resource):
         @games.response(200, 'Success')
         @games.doc(description="        By query with different combination(Genre,Platform,Region,Year),"
                                "Top Sales are provided by this service")
-#        @api.expect(Format_Token,TopSale_parser)
+        @api.expect(TopSale_parser)
 #        @requires_auth
         def get(self):
             args = TopSale_parser.parse_args()
