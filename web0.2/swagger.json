@@ -1,0 +1,1071 @@
+{
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+        "/apiusages": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "List of usage of each service",
+                "operationId": "get_usage_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "apiusages"
+                ]
+            }
+        },
+        "/apiusages/{service}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "name_of_services",
+                    "name": "service",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "individual usage of each service",
+                "operationId": "get_usage",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "apiusages"
+                ]
+            }
+        },
+        "/auth/token": {
+            "get": {
+                "responses": {
+                    "401": {
+                        "description": "authorization has been refused for those credentials."
+                    },
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "description": "Generates a authentication token",
+                "operationId": "get_token",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/countries": {
+            "post": {
+                "responses": {
+                    "400": {
+                        "description": "Validation Error"
+                    },
+                    "200": {
+                        "description": "Country Created Successfully"
+                    }
+                },
+                "description": "Add a new country",
+                "operationId": "post_countries_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_Countries"
+                        }
+                    }
+                ],
+                "tags": [
+                    "countries"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "get the game sale list in each country",
+                "operationId": "get_countries_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "countries"
+                ]
+            }
+        },
+        "/countries/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The country id",
+                    "name": "id",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "delete the sale record of specific country Only admin is permitted",
+                "operationId": "delete_countries",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "countries"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "400": {
+                        "description": "InValid"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "update the game sale info of specific country",
+                "operationId": "put_countries",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_Countries"
+                        }
+                    }
+                ],
+                "tags": [
+                    "countries"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "get the game sale info in specific country",
+                "operationId": "get_countries",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "countries"
+                ]
+            }
+        },
+        "/games/2019": {
+            "post": {
+                "responses": {
+                    "400": {
+                        "description": "Validation Error"
+                    },
+                    "200": {
+                        "description": "Game Created Successfully"
+                    }
+                },
+                "description": "Add a new game with selling info",
+                "operationId": "post_games_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_Games"
+                        }
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "get the list of games in 2019",
+                "operationId": "get_games_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            }
+        },
+        "/games/2019/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "identifier of the game",
+                    "name": "id",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "delete": {
+                "responses": {
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Cannot be found"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "delete the sale info of specific Game Only admin is permitted",
+                "operationId": "delete_games_2019",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "400": {
+                        "description": "Invalid"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "Update the sale of specific game",
+                "operationId": "put_games_2019",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_Games"
+                        }
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Cannot be found"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "get the sale of individual game",
+                "operationId": "get_games_2019",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            }
+        },
+        "/games/populargames": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "DataSet of 30 popular games on different platforms",
+                "operationId": "get_popular30",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            }
+        },
+        "/games/topsales": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "By query with different combination(Genre,Platform,Region,Year),Top Sales are provided by this service",
+                "operationId": "get_topsales",
+                "parameters": [
+                    {
+                        "name": "top",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "     top(?)  ,top10 if empty"
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "type": "string",
+                        "description": "\n    choose one of the region, empty is Global_Sales\n    ['Global_Sales', 'NA_Sales', 'PAL_Sales', 'JP_Sales', 'Other_Sales']\n"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "    after 1970 ~    "
+                    },
+                    {
+                        "name": "platform",
+                        "in": "query",
+                        "type": "string",
+                        "description": "\n    choose one of the platforms, empty would be all.\n    ['Wii', 'NES', 'PC', 'GB', 'DS', 'X360', 'SNES', 'PS3', 'PS4',\n     '3DS', 'PS2', 'GBA', 'NS', 'GEN', \n    'N64', 'PS', 'XOne', 'WiiU', 'XB', 'PSP', '2600', 'GC', 'GBC', 'PSN', 'PSV', 'DC', 'SAT', 'SCD', \n    'WS', 'XBL', 'Amig', 'VC', 'NG', 'WW', 'PCE', '3DO', 'GG', 'OSX', 'PCFX', 'Mob', 'And', 'Ouya', 'DSiW',\n     'MS', 'DSi', 'VB', 'Linux', 'MSD', 'C128', 'AST', 'Lynx', '7800', '5200', 'S32X', 'MSX', 'FMT', 'ACPC',\n      'C64', 'BRW', 'AJ', 'ZXS', 'NGage',\n     'GIZ', 'WinP', 'iQue', 'iOS', 'Arc', 'ApII', 'Aco', 'BBCM', 'TG16', 'CDi', 'CD32', 'Int']\n"
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "type": "string",
+                        "description": "\n    choose one of the genre, empty would be all.\n    ['Sports', 'Platform', 'Racing', 'Shooter', 'Role-Playing',\n     'Puzzle', 'Misc', 'Party', 'Simulation', 'Action', 'Action-Adventure',\n      'Fighting', 'Strategy', 'Adventure', 'Music', 'MMO', 'Sandbox',\n       'Visual Novel', 'Board Game', 'Education']\n"
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            }
+        },
+        "/games/topscores": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "By query with different combination(Genre,Platform,Region,Year),Top Scores are provided by this service",
+                "operationId": "get_topscores",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "top",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "     top(?)  ,top10 if empty"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "    after 1970 ~    "
+                    },
+                    {
+                        "name": "platform",
+                        "in": "query",
+                        "type": "string",
+                        "description": "\n    choose one of the platforms, empty would be all.\n    ['Wii', 'NES', 'PC', 'GB', 'DS', 'X360', 'SNES', 'PS3', 'PS4',\n     '3DS', 'PS2', 'GBA', 'NS', 'GEN', \n    'N64', 'PS', 'XOne', 'WiiU', 'XB', 'PSP', '2600', 'GC', 'GBC', 'PSN', 'PSV', 'DC', 'SAT', 'SCD', \n    'WS', 'XBL', 'Amig', 'VC', 'NG', 'WW', 'PCE', '3DO', 'GG', 'OSX', 'PCFX', 'Mob', 'And', 'Ouya', 'DSiW',\n     'MS', 'DSi', 'VB', 'Linux', 'MSD', 'C128', 'AST', 'Lynx', '7800', '5200', 'S32X', 'MSX', 'FMT', 'ACPC',\n      'C64', 'BRW', 'AJ', 'ZXS', 'NGage',\n     'GIZ', 'WinP', 'iQue', 'iOS', 'Arc', 'ApII', 'Aco', 'BBCM', 'TG16', 'CDi', 'CD32', 'Int']\n"
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "type": "string",
+                        "description": "\n    choose one of the genre, empty would be all.\n    ['Sports', 'Platform', 'Racing', 'Shooter', 'Role-Playing',\n     'Puzzle', 'Misc', 'Party', 'Simulation', 'Action', 'Action-Adventure',\n      'Fighting', 'Strategy', 'Adventure', 'Music', 'MMO', 'Sandbox',\n       'Visual Novel', 'Board Game', 'Education']\n"
+                    }
+                ],
+                "tags": [
+                    "games"
+                ]
+            }
+        },
+        "/predict/esrb": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "predict ESRB rating",
+                "operationId": "get_esr_brating",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "game_information",
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "predict"
+                ]
+            }
+        },
+        "/predict/linear": {
+            "get": {
+                "responses": {
+                    "400": {
+                        "description": "Invalid"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "The number predict model use linear regression to predict the possible new game number It can base on different background information to predict the new game number ,like in different genre, developers and platforms",
+                "operationId": "get_linear_prediction",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "type": "integer",
+                        "description": "    after 2019    "
+                    },
+                    {
+                        "name": "platform",
+                        "in": "query",
+                        "type": "string",
+                        "description": "\n    choose one of the platforms, empty would be all.\n    ['Wii', 'NES', 'PC', 'GB', 'DS', 'X360', 'SNES', 'PS3', 'PS4',\n     '3DS', 'PS2', 'GBA', 'NS', 'GEN', \n    'N64', 'PS', 'XOne', 'WiiU', 'XB', 'PSP', '2600', 'GC', 'GBC', 'PSN', 'PSV', 'DC', 'SAT', 'SCD', \n    'WS', 'XBL', 'Amig', 'VC', 'NG', 'WW', 'PCE', '3DO', 'GG', 'OSX', 'PCFX', 'Mob', 'And', 'Ouya', 'DSiW',\n     'MS', 'DSi', 'VB', 'Linux', 'MSD', 'C128', 'AST', 'Lynx', '7800', '5200', 'S32X', 'MSX', 'FMT', 'ACPC',\n      'C64', 'BRW', 'AJ', 'ZXS', 'NGage',\n     'GIZ', 'WinP', 'iQue', 'iOS', 'Arc', 'ApII', 'Aco', 'BBCM', 'TG16', 'CDi', 'CD32', 'Int']\n"
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "type": "string",
+                        "description": "\n    choose one of the genre, empty would be all.\n    ['Sports', 'Platform', 'Racing', 'Shooter', 'Role-Playing',\n     'Puzzle', 'Misc', 'Party', 'Simulation', 'Action', 'Action-Adventure',\n      'Fighting', 'Strategy', 'Adventure', 'Music', 'MMO', 'Sandbox',\n       'Visual Novel', 'Board Game', 'Education']\n"
+                    }
+                ],
+                "tags": [
+                    "predict"
+                ]
+            }
+        },
+        "/recommends": {
+            "post": {
+                "responses": {
+                    "406": {
+                        "description": "Token:User unmatched"
+                    },
+                    "400": {
+                        "description": "Wrong Format"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "create a new recommendation resource",
+                "operationId": "post_recommends_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_Recommend_POST"
+                        }
+                    }
+                ],
+                "tags": [
+                    "recommends"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "get recommendation list of each users",
+                "operationId": "get_recommends_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "recommends"
+                ]
+            }
+        },
+        "/recommends/{username}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "name_of_user",
+                    "name": "username",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "delete user from entire system only user himself or admin is permitted",
+                "operationId": "delete_recommend",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "recommends"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "update the record of specific user",
+                "operationId": "put_recommend",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_Recommend_PUT"
+                        }
+                    }
+                ],
+                "tags": [
+                    "recommends"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "get the recommendation of specific user",
+                "operationId": "get_recommend",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "recommends"
+                ]
+            }
+        },
+        "/users": {
+            "post": {
+                "responses": {
+                    "403": {
+                        "description": "Duplicate Username"
+                    },
+                    "400": {
+                        "description": "Wrong Format"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "Signup to get the membership",
+                "operationId": "post_users_list",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_Register"
+                        }
+                    }
+                ],
+                "tags": [
+                    "users"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "List of Users with email",
+                "operationId": "get_users_list",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "users"
+                ]
+            }
+        },
+        "/users/{username}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "name_of_user",
+                    "name": "username",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "responses": {
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "delete user from entire system only admin is permitted",
+                "operationId": "delete_user",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "users"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "update the info of user  only user himself or admin is permitted",
+                "operationId": "put_user",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Format_User_PUT"
+                        }
+                    }
+                ],
+                "tags": [
+                    "users"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "description": "get basic info of specific user",
+                "operationId": "get_user",
+                "parameters": [
+                    {
+                        "name": "AUTH-TOKEN",
+                        "in": "header",
+                        "type": "string",
+                        "description": " put your TOKEN here if you're not using API "
+                    }
+                ],
+                "tags": [
+                    "users"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Restful API for Game Recommendation and Prediction",
+        "version": "1.0",
+        "description": "Connect to Atlas MongoDB "
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "API-KEY": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "AUTH-TOKEN"
+        }
+    },
+    "security": [
+        {
+            "API-KEY": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "auth",
+            "description": "Authentication"
+        },
+        {
+            "name": "users",
+            "description": "User information"
+        },
+        {
+            "name": "predict",
+            "description": "Predict Services"
+        },
+        {
+            "name": "games",
+            "description": "Record of Games"
+        },
+        {
+            "name": "countries",
+            "description": "Records of Countries sales"
+        },
+        {
+            "name": "recommends",
+            "description": "Recommendation Services"
+        },
+        {
+            "name": "apiusages",
+            "description": "Usage Record Services"
+        }
+    ],
+    "definitions": {
+        "Format_Register": {
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Format_User_PUT": {
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "Format_Games": {
+            "required": [
+                "Developer",
+                "Genre",
+                "Identifier",
+                "Name",
+                "Platform",
+                "Publisher",
+                "Year"
+            ],
+            "properties": {
+                "Identifier": {
+                    "type": "integer"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Genre": {
+                    "type": "string"
+                },
+                "ESRB_Rating": {
+                    "type": "string"
+                },
+                "Platform": {
+                    "type": "string"
+                },
+                "Publisher": {
+                    "type": "string"
+                },
+                "Developer": {
+                    "type": "string"
+                },
+                "Critic_Score": {
+                    "type": "number"
+                },
+                "User_Score": {
+                    "type": "number"
+                },
+                "Global_Sales": {
+                    "type": "number"
+                },
+                "NA_Sales": {
+                    "type": "number"
+                },
+                "PAL_Sales": {
+                    "type": "number"
+                },
+                "JP_Sales": {
+                    "type": "number"
+                },
+                "Other_Sales": {
+                    "type": "number"
+                },
+                "Year": {
+                    "type": "integer",
+                    "example": "2019"
+                }
+            },
+            "type": "object"
+        },
+        "Format_Countries": {
+            "required": [
+                "Country",
+                "Identifier",
+                "Population",
+                "Region"
+            ],
+            "properties": {
+                "Country": {
+                    "type": "string"
+                },
+                "Region": {
+                    "type": "string"
+                },
+                "Population": {
+                    "type": "integer"
+                },
+                "region_sale": {
+                    "type": "number"
+                },
+                "region_population": {
+                    "type": "integer"
+                },
+                "region_per_person": {
+                    "type": "number"
+                },
+                "country_sale": {
+                    "type": "number"
+                },
+                "Identifier": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "Format_Recommend_POST": {
+            "required": [
+                "username"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "preference": {
+                    "type": "array",
+                    "description": "use Rank",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "Format_Recommend_PUT": {
+            "properties": {
+                "preference": {
+                    "type": "array",
+                    "description": "use Rank",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "type": "object"
+        }
+    },
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }
+    }
+}
